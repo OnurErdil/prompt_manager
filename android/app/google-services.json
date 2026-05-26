@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "681296444869",
+    "firebase_url": "https://prompt-manager-65273-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "prompt-manager-65273",
+    "storage_bucket": "prompt-manager-65273.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681296444869:android:31c2a54b2fa22835e8dfac",
+        "android_client_info": {
+          "package_name": "com.onurerdil.promptmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlF7q8nHe0VCYjs6LALcKtSTb9DWHup84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
