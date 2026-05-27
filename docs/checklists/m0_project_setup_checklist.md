@@ -150,12 +150,12 @@ Kontrol maddeleri:
 - [x] ADR-002 dosyası eklendi.
 - [x] ADR-003 dosyası eklendi.
 - [x] ADR-004 dosyası eklendi.
-- [ ] ADR-005 dosyası eklendi.
-- [ ] ADR-006 dosyası eklendi.
-- [ ] ADR-007 dosyası eklendi.
-- [ ] ADR-008 dosyası eklendi.
-- [ ] ADR-009 dosyası eklendi.
-- [ ] ADR-010 dosyası eklendi.
+- [x] ADR-005 dosyası eklendi.
+- [x] ADR-006 dosyası eklendi.
+- [x] ADR-007 dosyası eklendi.
+- [x] ADR-008 dosyası eklendi.
+- [x] ADR-009 dosyası eklendi.
+- [x] ADR-010 dosyası eklendi.
 - [ ] ADR dosya adları numaralı ve tutarlı.
 
 > M0 notu: İlk ADR çekirdeği oluşturuldu. Bu checklist 10 ADR’lik daha geniş paket bekliyor. M0 kapanmadan önce eksik ADR dosyaları oluşturulacaksa adlar gerçek proje dosyalarıyla hizalanmalıdır.
@@ -170,13 +170,13 @@ Kontrol maddeleri:
 
 - [x] `docs/checklists/` klasörü var.
 - [x] M0 checklist dosyası var.
-- [ ] M1 checklist dosyası için yer hazır.
-- [ ] M2 checklist dosyası için yer hazır.
-- [ ] M3 checklist dosyası için yer hazır.
-- [ ] M4 checklist dosyası için yer hazır.
+- [x] M1 checklist dosyası için yer hazır.
+- [x] M2 checklist dosyası için yer hazır.
+- [x] M3 checklist dosyası için yer hazır.
+- [x] M4 checklist dosyası için yer hazır.
 - [x] Global checklist dosyaları için yer hazır.
-- [ ] Security checklist için yer hazır.
-- [ ] Architecture boundary checklist için yer hazır.
+- [x] Security checklist için yer hazır.
+- [x] Architecture boundary checklist için yer hazır.
 - [x] Scope leak checklist için yer hazır.
 - [ ] Device/platform test checklist için yer hazır.
 
@@ -190,11 +190,11 @@ Kontrol maddeleri:
 
 - [x] `docs/ai_review_prompts/` klasörü var.
 - [x] Architecture review prompt için yer hazır.
-- [ ] Data model review prompt için yer hazır.
+- [x] Data model review prompt için yer hazır.
 - [x] Firestore rules review prompt için yer hazır.
-- [ ] Security review prompt için yer hazır.
+- [x] Security review prompt için yer hazır.
 - [x] Milestone review prompt için yer hazır.
-- [ ] Scope guard review prompt için yer hazır.
+- [x] Scope guard review prompt için yer hazır.
 - [x] Hangi milestone’da hangi AI review promptunun kullanılacağı takip edilecek.
 
 ## 12. Scripts Klasörü Kontrolü
