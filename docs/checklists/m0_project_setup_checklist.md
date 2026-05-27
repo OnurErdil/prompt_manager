@@ -99,9 +99,9 @@ presentation/
 
 Kontrol maddeleri:
 
-- [ ] `auth` feature detaylı iç yapısı oluşturuldu.
-- [ ] `prompts` feature detaylı iç yapısı oluşturuldu.
-- [ ] `settings` feature detaylı iç yapısı oluşturuldu.
+- [x] `auth` feature detaylı iç yapısı oluşturuldu.
+- [x] `prompts` feature detaylı iç yapısı oluşturuldu.
+- [x] `settings` feature detaylı iç yapısı oluşturuldu.
 - [x] Feature ana katman ayrımı tutarlı.
 - [x] Firebase veya Firestore ile ilgili dosyalar şimdiden UI katmanına konmadı.
 - [x] Domain katmanı dış teknolojiye bağımlı hale getirilmedi.
@@ -156,7 +156,7 @@ Kontrol maddeleri:
 - [x] ADR-008 dosyası eklendi.
 - [x] ADR-009 dosyası eklendi.
 - [x] ADR-010 dosyası eklendi.
-- [ ] ADR dosya adları numaralı ve tutarlı.
+- [x] ADR dosya adları numaralı ve tutarlı.
 
 > M0 notu: İlk ADR çekirdeği oluşturuldu. Bu checklist 10 ADR’lik daha geniş paket bekliyor. M0 kapanmadan önce eksik ADR dosyaları oluşturulacaksa adlar gerçek proje dosyalarıyla hizalanmalıdır.
 
@@ -178,7 +178,7 @@ Kontrol maddeleri:
 - [x] Security checklist için yer hazır.
 - [x] Architecture boundary checklist için yer hazır.
 - [x] Scope leak checklist için yer hazır.
-- [ ] Device/platform test checklist için yer hazır.
+- [x] Device/platform test checklist için yer hazır.
 
 ## 11. AI Review Prompt Klasörü Kontrolü
 
@@ -326,7 +326,7 @@ M0 tamamlandı sayılabilmesi için:
 - [x] Firebase hazırlık yönü net.
 - [x] Proje temiz şekilde çalışıyor.
 - [x] V1 dışı özellik geliştirmeye başlanmadı.
-- [ ] M1 — App Shell, Routing ve Auth aşamasına geçilebilir.
+- [x] M1 — App Shell, Routing ve Auth aşamasına geçilebilir.
 
 > M0 kapanış öncesi kalan küçük karar: Feature iç detay klasörleri ve eksik ADR/checklist/AI review prompt dosyaları M0’da mı tamamlanacak, yoksa M1/M2/M3 sırasında ihtiyaç doğdukça mı açılacak? Bu karar netleşince son madde işaretlenebilir.
 
@@ -336,11 +336,11 @@ M0’un amacı ürün özelliği geliştirmek değil, V1 geliştirme zemininin g
 
 ## 22. M0 Final Kontrol
 
-- [ ] Final `flutter pub get` geçti.
-- [ ] Final `flutter analyze` geçti.
-- [ ] Final `flutter test` geçti.
-- [ ] Final `flutter build apk --debug` geçti.
-- [ ] Final `flutter run` geçti.
-- [ ] M0 final checklist güncellendi.
-- [ ] M0 final commit atıldı.
-- [ ] M0 final push yapıldı.
+- [x] Final `flutter pub get` geçti.
+- [x] Final `flutter analyze` geçti.
+- [x] Final `flutter test` geçti.
+- [x] Final `flutter build apk --debug` geçti.
+- [x] Final `flutter run` geçti.
+- [x] M0 final checklist güncellendi.
+- [x] M0 final commit atıldı.
+- [x] M0 final push yapıldı.
