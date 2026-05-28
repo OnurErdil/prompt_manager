@@ -199,6 +199,36 @@ M1 dış review tamamlandı. Bloklayıcı sorun bulunmadı. App shell, routing, 
 - M2’de PromptCard domain modeli Firebase’den bağımsız kurulacak.
 - M2’de Firestore data layer, prompt ekleme, repository/service Firestore bağlantısı yapılmayacak.
 
+## M1 Resmi Checklist / Review Prompt Kontrol Notu — 2026-05-29
+
+Milestone: M1  
+Kategori: AI Review / Checklist / Mimari / Scope  
+Durum: Kapanmış
+
+### Not
+M1 resmi checklist ve review prompt dosyalarıyla kontrol edildi. Kullanılan ana dosyalar:
+
+- `docs/checklists/m1_app_shell_routing_auth_checklist.md`
+- `docs/checklists/architecture_boundary_checklist.md`
+- `docs/checklists/security_checklist.md`
+- `docs/checklists/scope_leak_checklist.md`
+- `docs/ai_review_prompts/architecture_review_prompt.md`
+- `docs/ai_review_prompts/milestone_review_prompt.md`
+- `docs/ai_review_prompts/code_review_prompt.md`
+
+### Kontrol Sonucu
+- App shell kurulmuş durumda.
+- `go_router` merkezi routing kurulmuş durumda.
+- AuthGate, Login, Register ve Logout akışı M1 kapsamına uygun.
+- UI/app katmanında `FirebaseAuth.instance`, `FirebaseFirestore.instance`, `FirebaseDatabase.instance`, `Firebase.initializeApp` doğrudan kullanımı bulunmadı.
+- Screen → Provider/Controller → Repository → Service → Firebase mimari sınırı korunuyor.
+- PromptCard, Firestore data layer, prompt ekleme, AI, payment, semantic search, usage analytics veya benzeri M1 dışı özellik sızıntısı bulunmadı.
+- M1.10 tema/UI standardı temel tema ve placeholder/auth ekran toparlaması sınırında kalmış; logo, onboarding, animasyon, premium polish veya tam marka sistemi kapsamına taşmamış.
+- `flutter analyze` ve `flutter test` temiz geçti.
+
+### Karar
+Bloklayıcı sorun bulunmadı. M2 — PromptCard Domain Model aşamasına geçiş için engel yok.
+
 Beklenen not alanları:
 
 - App root,
