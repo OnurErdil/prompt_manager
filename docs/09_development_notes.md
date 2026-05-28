@@ -6,7 +6,7 @@
 **Sürüm:** v0.1  
 **Durum:** 0.9 kapsamında oluşturuldu  
 **Kapsam:** V1 geliştirme süreci boyunca milestone notları, hata kayıtları, karar adayları, AI review sonuçları, cihaz/platform test gözlemleri ve açık sorular  
-**Son güncelleme:** 2026-05-25
+**Son güncelleme:** 2026-05-28
 
 Bu belge, Prompt Yönetim Aracı V1 geliştirme sürecinde ortaya çıkan operasyonel notları, ara kararları, hata ve çözüm kayıtlarını, test gözlemlerini ve başka belgelere taşınması gereken maddeleri izlemek için kullanılır.
 
@@ -113,10 +113,9 @@ Ne yapılacak veya nereye taşınacak?
 
 ## 6. Aktif Milestone Durumu
 
-**Aktif milestone:** M0 — Proje Hazırlığı ve Teknik Zemin  
-**Son tamamlanan planlama aşaması:** 0.9 — V1 Öncesi Proje Belgeleri, Karar Kayıtları ve Kodlamaya Hazırlık Paketi  
-**Sonraki ana çalışma:** 0.9 dosya paketinin projeye eklenmesi ve M0 hazırlıklarına geçiş
-
+**Aktif milestone:** M1 — App Shell, Routing ve Auth  
+**Son tamamlanan milestone:** M0 — Proje Hazırlığı ve Teknik Zemin  
+**Sonraki ana çalışma:** M1 başlangıç planı, paket ekleme sırası, app shell, routing ve Auth hazırlığı
 ---
 
 ## 7. Milestone Bazlı Notlar
@@ -139,22 +138,36 @@ Beklenen not alanları:
 #### M0 Kapanış Notu Şablonu
 
 ```md
-## M0 Kapanış Notu
+## M0 Kapanış Notu — 2026-05-28
 
 ### Yapılanlar
-- 
+- Flutter project: prompt_manager
+- Android package: com.onurerdil.promptmanager
+- Git / GitHub hazır
+- lib/app, lib/core, lib/features yapısı hazır
+- auth / prompts / settings feature klasörleri hazır
+- docs paketi, Canon v1.0, ADR-001–010, checklist ve AI review prompt dosyaları eklendi
+- Firebase temel config tamamlandı
+- firebase_core eklendi
+- firebase_options.dart ve google-services.json eklendi
+- M0’da ürün feature kodu yazılmadı
 
 ### Kontrol edilenler
-- 
+- Dosya adları gerçek proje yapısıyla hizalandı
+- ADR dosyaları ADR-001’den ADR-010’a kadar düzenli tutuldu
+- Checklist ve AI review prompt dosyaları mevcut isimleriyle kabul edildi
+- M0 scope leak kontrolü temiz kaldı
 
 ### Açık kalanlar
-- 
+- Cloud Firestore physical database creation billing gereksinimi nedeniyle M3 öncesine ertelendi
+- Realtime Database kullanılmayacak; varsa rules kapalı tutulacak
+- Android gerçek cihaz / emülatör run kontrolü M1 başlangıcında tekrar ele alınabilir
 
 ### Sonraki milestone’a taşınanlar
-- 
+- M1 — App Shell / Routing / Auth
 
-### Belge / checklist / ADR güncelleme ihtiyacı
-- 
+### Kapanış kararı
+- [x] Bu milestone kapanabilir.
 ```
 
 ---
@@ -684,3 +697,38 @@ Ancak service account, private key, AI API key, Gemini/OpenAI key, keystore şif
 Firebase güvenliği API key gizlemekle değil, Security Rules, App Check ve doğru erişim sınırlarıyla sağlanacak.
 
 Realtime Database yanlışlıkla açıldıysa kullanılmayacak. Rules kapalı tutulacak. V1 veri yönü Firebase Auth + Cloud Firestore’dur. Firestore physical database billing nedeniyle M3 öncesine ertelenmiştir.
+
+## M0 Documentation Inventory Note
+
+M0 documentation package was finalized with the existing file names.
+
+ADR files are numbered from ADR-001 to ADR-010 and kept as-is.
+
+Checklist files use a mix of milestone-based and global naming:
+- m0/m1/m2/m3/m4 milestone checklists
+- g04/g05 global checklists
+- security, architecture boundary, scope leak and device/platform checklists
+
+AI review prompt files are kept with their existing descriptive names, including firebase_rules_review_prompt.md for Firestore/Firebase rules review.
+
+## M0 Kapanış Notu
+
+M0 — Proje Hazırlığı ve Teknik Zemin aşaması tamamlandı.
+
+Tamamlananlar:
+- Flutter project: prompt_manager
+- Android package: com.onurerdil.promptmanager
+- Git / GitHub hazır
+- lib/app, lib/core, lib/features yapısı hazır
+- auth / prompts / settings feature klasörleri hazır
+- docs paketi, Canon v1.0, ADR-001–010, checklist ve AI review prompt dosyaları eklendi
+- Firebase temel config tamamlandı
+- firebase_core eklendi
+- firebase_options.dart ve google-services.json eklendi
+- M0’da ürün feature kodu yazılmadı
+
+Bilinçli bekleyen konu:
+- Cloud Firestore physical database creation billing gereksinimi nedeniyle M3 öncesine ertelendi.
+- Realtime Database kullanılmayacak; varsa rules kapalı tutulacak.
+
+M1 — App Shell / Routing / Auth aşamasına geçilebilir.

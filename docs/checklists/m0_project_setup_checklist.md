@@ -160,18 +160,7 @@ Kontrol maddeleri:
 
 > M0 notu: İlk ADR çekirdeği oluşturuldu. Bu checklist 10 ADR’lik daha geniş paket bekliyor. M0 kapanmadan önce eksik ADR dosyaları oluşturulacaksa adlar gerçek proje dosyalarıyla hizalanmalıdır.
 
-## M0 Documentation Inventory Note
 
-M0 documentation package was finalized with the existing file names.
-
-ADR files are numbered from ADR-001 to ADR-010 and kept as-is.
-
-Checklist files use a mix of milestone-based and global naming:
-- m0/m1/m2/m3/m4 milestone checklists
-- g04/g05 global checklists
-- security, architecture boundary, scope leak and device/platform checklists
-
-AI review prompt files are kept with their existing descriptive names, including firebase_rules_review_prompt.md for Firestore/Firebase rules review.
 ## 10. Checklist Klasörü Kontrolü
 
 ```text
