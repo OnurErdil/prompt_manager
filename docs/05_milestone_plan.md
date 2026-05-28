@@ -193,6 +193,10 @@ Kapsam:
 
 Auth ve routing akışı güvenilir şekilde çalışmalı; temel tema/UI standardı uygulanmış olmalı ve PromptCard domain modeline geçilebilmelidir.
 
+### Durum Notu — 2026-05-29
+
+M1 — App Shell / Routing / Auth ve M1.10 — İlk Tema, UI Temel Standartları ve V1 Görsel Kalite Planı tamamlandı. Sıradaki aşama M2 — PromptCard Domain Model’dir. M2’de PromptCard domain modeli Firebase’den bağımsız kurulacak; Firestore data layer, prompt ekleme ve repository/service Firestore bağlantısı yapılmayacaktır.
+
 ---
 
 ## M2 — PromptCard Domain Model

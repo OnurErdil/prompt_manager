@@ -8,23 +8,30 @@ The product is a personal prompt lifecycle management tool for individual AI pow
 
 ## Current Development Status
 
-The project has completed M0 — Project Setup and Technical Groundwork.
+The project has completed:
 
-M0 includes:
+* M0 — Project Setup and Technical Groundwork
+* M1 — App Shell / Routing / Auth
+* M1.10 — İlk Tema, UI Temel Standartları ve V1 Görsel Kalite Planı
 
-* Flutter project setup
-* Git / GitHub setup
-* Feature-first folder structure
-* Docs package
-* Canon v1.0
-* ADR files
-* Checklists
-* AI review prompts
-* Firebase base configuration
-* firebase_core
-* Android package setup
+Next milestone:
 
-M1 — App Shell / Routing / Auth is the next milestone.
+* M2 — PromptCard Domain Model
+
+M2 focus:
+
+* Build the PromptCard domain model independently from Firebase.
+* Keep the domain model free from Firestore `Timestamp`, document snapshots, DTOs, and Firebase-specific types.
+* Define domain-level status, variable parsing, validation, and repository interface boundaries as needed.
+
+M2 does not include:
+
+* Firestore data layer
+* prompt creation flow
+* Firestore repository/service connection
+* Firestore DTO or mapper implementation
+* prompt add UI
+* AI, payment, semantic search, usage analytics, or V1 scope expansions
 
 ## Technical Identity
 
@@ -79,17 +86,18 @@ Firebase base configuration exists.
 Current Firebase state:
 
 * firebase_core is added
+* firebase_auth is added and used through the M1 auth data flow
 * firebase_options.dart exists
 * google-services.json exists
 * firebase.json exists
-* Firebase Auth direction is accepted
+* Firebase Auth is configured for the M1 auth flow
 * Cloud Firestore is the intended database
 * Cloud Firestore physical database creation is postponed due to billing requirement
 * Realtime Database is not used and must remain locked if present
 
 Do not add cloud_firestore before the M3 Data Layer / Firestore milestone unless explicitly instructed.
 
-Do not add firebase_auth before the M1 App Shell / Routing / Auth milestone unless explicitly instructed.
+Firebase client config files in this repo are not backend secrets. Security must be enforced through Firebase Auth settings, Firebase Security Rules, future App Check/API restriction evaluation, and Firestore rules.
 
 ## Documentation Rules
 
@@ -152,10 +160,10 @@ M0:
 Project setup only. No product feature code.
 
 M1:
-App shell, routing, Firebase Auth preparation, AuthGate, Login/Register skeleton.
+App shell, routing, Firebase Auth preparation, AuthGate, Login/Register, logout, first UI theme standard. Completed.
 
 M2:
-PromptCard domain model.
+PromptCard domain model. Firebase-independent domain only; no Firestore data layer or prompt creation flow.
 
 M3:
 Data layer, Firestore service/repository/DTO/mapper, Firestore rules draft.

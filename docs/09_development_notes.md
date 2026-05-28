@@ -113,9 +113,9 @@ Ne yapılacak veya nereye taşınacak?
 
 ## 6. Aktif Milestone Durumu
 
-**Aktif milestone:** M1 — App Shell, Routing ve Auth  
-**Son tamamlanan milestone:** M0 — Proje Hazırlığı ve Teknik Zemin  
-**Sonraki ana çalışma:** M1 başlangıç planı, paket ekleme sırası, app shell, routing ve Auth hazırlığı
+**Aktif milestone:** M2 — PromptCard Domain Model  
+**Son tamamlanan milestone:** M1 — App Shell, Routing ve Auth  
+**Sonraki ana çalışma:** M2 başlangıç planı, Firebase’den bağımsız PromptCard domain modeli, status/değişken/validation sınırları
 ---
 
 ## 7. Milestone Bazlı Notlar
@@ -174,7 +174,30 @@ Beklenen not alanları:
 
 ### M1 — App Shell, Routing ve Auth
 
-Henüz not yok.
+## M1 Kapanış Notu — 2026-05-29
+
+Milestone: M1  
+Kategori: AI Review / Mimari / Güvenlik / Scope  
+Durum: Kapanmış
+
+### Not
+M1 dış review tamamlandı. Bloklayıcı sorun bulunmadı. App shell, routing, AuthGate, Login/Register, logout ve M1.10 temel tema/UI standardı M1 kapsamına uygun şekilde tamamlandı.
+
+### Kontrol edilenler
+- Lokal grep kontrolünde UI/app katmanında Firebase’e doğrudan erişim bulunmadı.
+- Kontrol edilen ifadeler: `FirebaseAuth.instance`, `FirebaseFirestore.instance`, `FirebaseDatabase.instance`, `Firebase.initializeApp`.
+- Riverpod 3 nedeniyle `package:flutter_riverpod/legacy.dart` kullanımı M1 için kabul edildi.
+- Firebase client config dosyaları (`lib/firebase_options.dart`, `android/app/google-services.json`) şu an repo’da tutuluyor.
+
+### Park / İzlenecek Notlar
+- Riverpod `legacy.dart` kullanımı ileride Notifier / AsyncNotifier geçişi için park notu olarak tutuluyor.
+- Firebase client config dosyaları backend secret değildir. Güvenlik Firebase Security Rules, Auth ayarları, ileride App Check/API restriction değerlendirmesi ve Firestore rules ile yönetilecek.
+- Firebase client config ve güvenlik sınırları M3 öncesi tekrar kontrol edilecek.
+
+### Sonraki milestone’a taşınanlar
+- M2 — PromptCard Domain Model.
+- M2’de PromptCard domain modeli Firebase’den bağımsız kurulacak.
+- M2’de Firestore data layer, prompt ekleme, repository/service Firestore bağlantısı yapılmayacak.
 
 Beklenen not alanları:
 
