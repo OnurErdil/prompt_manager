@@ -415,10 +415,10 @@ Bu karar ne zaman kalıcı ADR olur?
 - ADR-004 — Feature-first + hafif clean architecture,
 - ADR-005 — UI Firebase’e doğrudan erişmeyecek,
 - ADR-006 — V1 manuel çekirdek / V2 AI katmanı,
-- ADR-007 — AI Gateway / Adapter V2,
-- ADR-008 — AI kredi / kota modeli,
-- ADR-009 — Firestore kullanıcı alt koleksiyonu,
-- ADR-010 — V1’de arşivleme kalıcı delete yerine status.
+- ADR-007 — Firestore User-Scoped Path,
+- ADR-008 — Variable Standard and Storage,
+- ADR-009 — No Permanent Delete in V1,
+- ADR-010 — Single App, Multilingual-Ready.
 
 Henüz ek aday yok.
 
