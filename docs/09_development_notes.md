@@ -673,3 +673,14 @@ Belge; hataları, ara kararları, test gözlemlerini, AI review sonuçlarını v
 Ana kural:
 
 > Geliştirme sırasında anlamlı bir not doğarsa buraya yazılır; kalıcılaşırsa doğru ana belgeye taşınır.
+
+Karar:
+M0’da feature alt klasörleri .gitkeep ile yer açılmış durumda kalacak.
+Gerçek Dart dosyaları M1 / M2 / M3 içinde ihtiyaç oldukça eklenecek.
+
+M0 kararı:
+firebase_options.dart ve google-services.json şu an M0 Firebase config parçası olarak repoda kalabilir.
+Ancak service account, private key, AI API key, Gemini/OpenAI key, keystore şifresi gibi gerçek gizli bilgiler asla repoya konmayacak.
+Firebase güvenliği API key gizlemekle değil, Security Rules, App Check ve doğru erişim sınırlarıyla sağlanacak.
+
+Realtime Database yanlışlıkla açıldıysa kullanılmayacak. Rules kapalı tutulacak. V1 veri yönü Firebase Auth + Cloud Firestore’dur. Firestore physical database billing nedeniyle M3 öncesine ertelenmiştir.
