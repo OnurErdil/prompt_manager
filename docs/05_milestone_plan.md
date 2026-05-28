@@ -68,7 +68,7 @@ Bir milestone’da açık kalan kritik konu varsa, konu `09_development_notes.md
 | Milestone | Ana amaç | Beklenen çıktı |
 |---|---|---|
 | M0 | Proje zemini | Flutter/Firebase hazır, klasör yapısı kurulmuş |
-| M1 | Auth ve routing | Login/Register/AuthGate çalışıyor |
+| M1 | Auth ve routing | Login/Register/AuthGate çalışıyor; temel tema ve UI standardı hazır |
 | M2 | Domain model | Firebase’den bağımsız PromptCard modeli hazır |
 | M3 | Firestore data layer | DTO/Mapper/Repository/Service hazır |
 | M4 | İlk çekirdek akış | Hızlı Ekle → Firestore → Kütüphane akışı çalışıyor |
@@ -146,6 +146,7 @@ Uygulama kabuğu, routing ve temel kullanıcı hesabı akışını kurmak.
 - Logout davranışı
 - AuthGate / Splash davranışı
 - Firebase Auth bağlantısı
+- M1.10 — İlk Tema, UI Temel Standartları ve V1 Görsel Kalite Planı
 
 ### Ana çıktılar
 
@@ -153,6 +154,19 @@ Uygulama kabuğu, routing ve temel kullanıcı hesabı akışını kurmak.
 - Kullanıcı giriş yapabilir.
 - Kullanıcı çıkış yapabilir.
 - AuthGate giriş durumuna göre kullanıcıyı doğru ekrana yönlendirir.
+- Temel Material 3 tema, spacing, typography, button/input/appbar standardı uygulanır.
+- Auth ve placeholder ekranları minimum ürün hissi verecek şekilde toparlanır.
+
+### M1.10 — İlk Tema, UI Temel Standartları ve V1 Görsel Kalite Planı
+
+Amaç: Uygulamanın teknik olarak çalışan ama görsel olarak düz/ruhsuz kalmasını önlemek için V1’i şişirmeden temel tema, spacing, typography, button/input/appbar standardı ve auth/placeholder ekranlarında minimum ürün hissi oluşturmak.
+
+Kapsam:
+
+- Material 3 uyumlu temel `AppTheme`
+- Login/Register ekranlarında daha düzenli spacing, başlık, açıklama ve form görünümü
+- Prompt Library ve Settings placeholder ekranlarında minimum ürün hissi
+- AppBar, FilledButton, OutlinedButton, TextButton ve InputDecoration için ortak temel stil
 
 ### Dahil olmayanlar
 
@@ -161,6 +175,9 @@ Uygulama kabuğu, routing ve temel kullanıcı hesabı akışını kurmak.
 - Sosyal giriş
 - Takım hesabı
 - Gelişmiş profil yönetimi
+- Logo, app icon, onboarding, animasyon, premium polish, tam marka sistemi
+- Tüm ekranların final tasarımı
+- PromptCard / Firestore / prompt ekleme özellikleri
 
 ### Kabul kontrolü
 
@@ -170,10 +187,11 @@ Uygulama kabuğu, routing ve temel kullanıcı hesabı akışını kurmak.
 - [ ] AuthGate merkezi yönlendirme noktası olarak çalışıyor.
 - [ ] Giriş yapmamış kullanıcı kütüphaneye erişemiyor.
 - [ ] Login/Register ekranları kalıcı rota kararlarını tek başına yönetmiyor.
+- [ ] Auth akışı bozulmadan, UI Firebase’e doğrudan erişmeden, temel tema ve UI standartları uygulanmış.
 
 ### Sonraki milestone’a geçiş şartı
 
-Auth ve routing akışı güvenilir şekilde çalışmalı; PromptCard domain modeline geçilebilmelidir.
+Auth ve routing akışı güvenilir şekilde çalışmalı; temel tema/UI standardı uygulanmış olmalı ve PromptCard domain modeline geçilebilmelidir.
 
 ---
 

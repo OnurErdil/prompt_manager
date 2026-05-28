@@ -186,7 +186,12 @@ Beklenen not alanları:
 - AuthGate,
 - Auth state davranışı,
 - Auth hata mesajları,
-- Login/Register ekranlarının merkezi yönlendirme kararlarını bozup bozmadığı.
+- Login/Register ekranlarının merkezi yönlendirme kararlarını bozup bozmadığı,
+- M1.10 — İlk Tema, UI Temel Standartları ve V1 Görsel Kalite Planı,
+- temel Material 3 tema, spacing, typography, button/input/appbar standardı,
+- auth ve placeholder ekranlarında minimum ürün hissi,
+- logo, app icon, onboarding, animasyon, premium polish, tam marka sistemi, final ekran tasarımları, PromptCard/Firestore/prompt ekleme özelliklerinin kapsam dışında kalması,
+- Auth akışı bozulmadan ve UI Firebase’e doğrudan erişmeden temel tema/UI standartlarının uygulanıp uygulanmadığı.
 
 ---
 
