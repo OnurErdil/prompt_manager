@@ -791,6 +791,37 @@ Bilinçli bekleyen konu:
 
 M1 — App Shell / Routing / Auth aşamasına geçilebilir.
 
+## M1 — App Shell / Routing / Auth Kapanış Notu
+
+M1 kapsamında uygulamanın temel app shell, routing ve auth akışı tamamlandı.
+
+Tamamlananlar:
+
+* App shell kuruldu.
+* go_router routing yapısı kuruldu.
+* Firebase Auth ile login/register/logout akışı çalışır hale getirildi.
+* AuthGate yönlendirme mantığı kuruldu.
+* UI → Provider/Controller → Repository → Service → Firebase mimari sınırı korundu.
+* UI/app katmanında doğrudan Firebase erişimi bulunmadı.
+* Riverpod 3 nedeniyle StateNotifier/StateNotifierProvider için legacy.dart kullanımı M1 için kabul edildi.
+* Riverpod 3 native Notifier/AsyncNotifier geçişi ileride değerlendirilecek teknik borç / park notu olarak tutuldu.
+* M1.10 kapsamında ilk Material 3 tema/UI standardı eklendi.
+* Login/Register ve placeholder ekranları minimum ürün hissi verecek şekilde toparlandı.
+* M1 sonrası dış AI review alındı.
+* Dış review sonucunda blocker bulunmadı.
+* M1 post-review cleanup tamamlandı.
+
+Kontroller:
+
+* flutter analyze temiz geçti.
+* flutter test temiz geçti.
+* UI/app katmanında doğrudan Firebase erişimi bulunmadı.
+* PromptCard, Firestore data layer, prompt ekleme, AI, payment, semantic search ve usage analytics gibi M1 dışı özellik sızıntısı bulunmadı.
+
+Not:
+M1 kapanışı sonrası proje M2 — PromptCard Domain Model aşamasına geçmeye hazır hale geldi.
+
+
 ## M2 — PromptCard Domain Model
 
 M2 kapsamında PromptCard domain model çekirdeği saf Dart olarak eklendi.
