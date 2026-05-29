@@ -822,9 +822,9 @@ Not:
 M1 kapanışı sonrası proje M2 — PromptCard Domain Model aşamasına geçmeye hazır hale geldi.
 
 
-## M2 — PromptCard Domain Model
+## M2 — PromptCard Domain Model Kapanış Notu
 
-M2 kapsamında PromptCard domain model çekirdeği saf Dart olarak eklendi.
+M2 kapsamında PromptCard domain model çekirdeği saf Dart olarak eklendi ve dış AI review sonrası kapanışa uygun bulundu.
 
 Tamamlananlar:
 - PromptStatus enum oluşturuldu.
@@ -834,17 +834,37 @@ Tamamlananlar:
 - schemaVersion varsayılan değeri 1 olarak belirlendi.
 - status varsayılan değeri PromptStatus.raw olarak belirlendi.
 - promptText için boş / whitespace kontrolü eklendi.
+- tags ve variables alanları boş liste varsayılanıyla güvenli hale getirildi.
 - hasVariables, isArchived, effectiveTitle ve copyWith yardımcı davranışları eklendi.
 - [DEĞİŞKEN_ADI] standardı için PromptVariableParser oluşturuldu.
-- Değişken algılama testleri eklendi.
-- PromptCard ve PromptStatus domain testleri eklendi.
+- Parser davranışı:
+    - Değişken sırası korunur.
+    - Tekrar eden değişkenler tekilleştirilir.
+    - Boş [] ifadeleri yok sayılır.
+    - Eksik bracket ifadeleri yok sayılır.
+    - Boşluklu invalid değişkenler yok sayılır.
+    - Türkçe karakter, sayı ve alt çizgi desteklenir.
+    - Değişken adı normalize edilmeden olduğu gibi saklanır.
+- PromptCard, PromptStatus ve PromptVariableParser için domain testleri eklendi.
 
 Kontroller:
 - flutter analyze temiz geçti.
 - flutter test temiz geçti.
 - 26 test başarılı.
-- Firebase, Firestore, DTO, mapper, repository, service, provider, UI veya yeni paket eklenmedi.
+- Firebase, Firestore, DTO, mapper, repository, service, provider, Riverpod, UI veya yeni paket eklenmedi.
 - usageCount, lastUsedAt ve versionHistory gibi V1 dışı alanlar eklenmedi.
+- M2 domain katmanı Firestore data layer için hazır hale geldi.
 
-Not:
-M2 sonunda domain model Firestore data layer için hazırdır. Gerçek Firestore DTO / mapper / repository bağlantısı M3’e bırakılmıştır.
+Dış AI review sonucu:
+- Gemini review: Blocker bulunmadı, M2 kapanışa uygun görüldü.
+- Codex review: Blocker bulunmadı, M2 kapanışa uygun görüldü.
+- Domain katmanında Firebase/Firestore veya mimari sınır sızıntısı görülmedi.
+- M3 Data Layer / Firestore aşamasına geçiş uygun bulundu.
+
+Park notları:
+- PromptStatus.fromKey şu an strict key eşleşmesi yapıyor. İleride Firestore’dan veri okunurken trim veya tolerans gerekiyorsa bu davranış domain içinde değil, M3 data layer / mapper tarafında ele alınmalı.
+- İleride domain eşitliği gerekiyorsa PromptCard için == / hashCode veya equatable benzeri yaklaşım ayrıca değerlendirilebilir.
+- Parser regex optimizasyonu M2 blocker değildir; mevcut testler geçtiği için gerekirse ileride küçük temizlik olarak değerlendirilebilir.
+
+Karar:
+M2 — PromptCard Domain Model aşaması kapanışa uygundur. M3 — Data Layer / Firestore aşamasına geçilebilir.
