@@ -188,7 +188,26 @@ M3’te final rules şart değildir; ancak ilk taslak olmalıdır.
 - [ ] Delete V1’de kapalı.
 - [ ] `promptText` boş olamaz kontrolü planlandı.
 - [ ] `status` izin verilen key’lerden biri olmalı kontrolü planlandı.
+- [ ] `schemaVersion == 1` kontrolü taslakta yer aldı.
+- [ ] `tags` array/list olmalı kontrolü taslakta yer aldı.
+- [ ] `variables` array/list olmalı kontrolü taslakta yer aldı.
+- [ ] `title`, `description`, `notes`, `category` string veya null olabilir kontrolü taslakta yer aldı.
+- [ ] Create sırasında `request.resource.data.id == promptId` kontrolü değerlendirildi.
+- [ ] Update sırasında `id` ve `ownerId` değiştirilemezliği taslakta yer aldı.
 - [ ] Gevşek `allow read, write: if request.auth != null;` yaklaşımı kullanılmıyor.
+- [ ] Rules taslağı dokümantasyonda tutuldu; deploy edilmedi.
+
+## 14.1 M3.7 Rules-Readiness Kabul Kriterleri
+
+- [ ] Root `firestore.rules` oluşturulmadıysa taslak rules bloğu docs içinde açıkça yer alıyor.
+- [ ] Taslak `match /users/{userId}/prompts/{promptId}` kapsamını kullanıyor.
+- [ ] Read yalnızca authenticated path owner için açık.
+- [ ] Create yalnızca authenticated path owner için açık.
+- [ ] Update yalnızca authenticated path owner için açık.
+- [ ] Delete V1’de kapalı.
+- [ ] Valid data helper veya eşdeğer kontrol `promptText`, `status`, `schemaVersion`, `tags`, `variables` alanlarını doğruluyor.
+- [ ] Rules deploy edilmedi.
+- [ ] M4/M6/M10 için cross-user security test ihtiyacı açıkça not edildi.
 
 ## 15. Kullanıcı İzolasyonu Kontrolü
 

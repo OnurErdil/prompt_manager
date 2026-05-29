@@ -417,6 +417,14 @@ Bu testler V1’in ana kabul şartı değildir; teknik görünürlük sağlamak 
 - [ ] Repository mock testleri yapılır.
 - [ ] Firestore service smoke test yapılır.
 - [ ] İlk security rules taslağı hazırlanır.
+- [ ] Rules-readiness taslağı `users/{userId}/prompts/{promptId}` path standardını kullanır.
+- [ ] Rules taslağı auth olmayan read/create/update/delete erişimini reddeder.
+- [ ] Rules taslağı cross-user read/create/update erişimini reddedecek şekilde planlandı.
+- [ ] Rules taslağı create sırasında `ownerId == request.auth.uid` kontrolünü içerir.
+- [ ] Rules taslağı update sırasında `ownerId` değişimini engeller.
+- [ ] Rules taslağı delete işlemini V1 için kapalı tutar.
+- [ ] Rules taslağı `status`, `schemaVersion`, `promptText`, `tags` ve `variables` temel validasyonlarını içerir.
+- [ ] Rules deploy edilmedi; M4/M6/M10 için test ve review girdisi olarak tutuldu.
 
 ### M4 — İlk Çekirdek Akış
 

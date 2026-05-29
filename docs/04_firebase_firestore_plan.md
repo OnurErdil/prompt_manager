@@ -377,6 +377,118 @@ allow read, write: if request.auth != null;
 
 Bu kural tek başına yeterli değildir. Kullanıcı giriş yaptı diye herkesin verisini okuyabilmemelidir.
 
+### M3.7 rules-readiness taslağı
+
+Durum: Taslak dokümantasyon. Bu blok deploy edilmedi ve root `firestore.rules` dosyası olarak oluşturulmadı.
+
+V1 path standardı:
+
+```text
+users/{userId}/prompts/{promptId}
+```
+
+Taslak Firestore Rules:
+
+```js
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwnerPath(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isAllowedStatus(status) {
+      return status in ['raw', 'needs_edit', 'ready', 'archived'];
+    }
+
+    function hasAllowedPromptKeys(data) {
+      return data.keys().hasOnly([
+        'id',
+        'ownerId',
+        'title',
+        'promptText',
+        'description',
+        'notes',
+        'category',
+        'tags',
+        'status',
+        'variables',
+        'createdAt',
+        'updatedAt',
+        'schemaVersion',
+      ]);
+    }
+
+    function hasRequiredPromptKeys(data) {
+      return data.keys().hasAll([
+        'id',
+        'ownerId',
+        'promptText',
+        'tags',
+        'status',
+        'variables',
+        'createdAt',
+        'updatedAt',
+        'schemaVersion',
+      ]);
+    }
+
+    function optionalStringOrNull(value) {
+      return value == null || value is string;
+    }
+
+    function validPromptData(data) {
+      return hasAllowedPromptKeys(data)
+        && hasRequiredPromptKeys(data)
+        && data.id is string
+        && data.id.size() > 0
+        && data.ownerId is string
+        && data.promptText is string
+        && data.promptText.size() > 0
+        && optionalStringOrNull(data.title)
+        && optionalStringOrNull(data.description)
+        && optionalStringOrNull(data.notes)
+        && optionalStringOrNull(data.category)
+        && data.tags is list
+        && data.variables is list
+        && isAllowedStatus(data.status)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp
+        && data.schemaVersion == 1;
+    }
+
+    match /users/{userId}/prompts/{promptId} {
+      allow read: if isOwnerPath(userId);
+
+      allow create: if isOwnerPath(userId)
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.id == promptId
+        && validPromptData(request.resource.data);
+
+      allow update: if isOwnerPath(userId)
+        && resource.data.ownerId == request.auth.uid
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.id == resource.data.id
+        && validPromptData(request.resource.data);
+
+      allow delete: if false;
+    }
+  }
+}
+```
+
+Notlar:
+
+- `promptText.size() > 0` boş string değerini engeller. Sadece boşluklardan oluşan metin için ek client/domain validation korunmalıdır.
+- `tags` ve `variables` V1'de liste olarak doğrulanır; eleman bazlı string kontrolü final rules review sırasında ayrıca değerlendirilecektir.
+- `createdAt` update sırasında değiştirilemezliği final rules turunda ayrıca değerlendirilebilir. M3.7 taslağının ana güvenlik kapıları path ownership, `ownerId`, valid status, schema version ve delete yasağıdır.
+- Bu taslak M4/M6/M10 güvenlik testleri ve dış Firestore rules review için başlangıç noktasıdır.
+
 ---
 
 ## 13. Milestone Bazlı Firebase Uygulama Sırası

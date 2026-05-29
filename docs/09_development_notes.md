@@ -265,7 +265,20 @@ Beklenen not alanları:
 
 ### M3 — Data Layer ve Firestore Bağlantısı
 
-Henüz not yok.
+## M3.7 — Firestore Rules-Readiness Notu — 2026-05-29
+
+Milestone: M3  
+Kategori: Güvenlik / Checklist  
+Durum: İzlenecek
+
+### Not
+M3.7 kapsamında Firestore rules-readiness dokümantasyonu hazırlandı. V1 path standardı `users/{userId}/prompts/{promptId}` olarak korunuyor. Rules taslağı docs içinde tutuldu; root `firestore.rules` dosyası oluşturulmadı ve deploy yapılmadı.
+
+### Etki
+M4 create/read akışına geçmeden önce kullanıcı izolasyonu, `ownerId`, valid status, `schemaVersion`, liste alanları ve delete yasağı için güvenlik beklentileri görünür hale geldi.
+
+### Aksiyon
+M4 sonunda create/read cross-user testleri yapılacak. M6 sonunda update/archive güvenliği tekrar kontrol edilecek. M10 final güvenlik kapanışında taslak rules dış review ve gerçek rules dosyası/deploy hazırlığıyla yeniden ele alınacak.
 
 Beklenen not alanları:
 

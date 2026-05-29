@@ -107,6 +107,11 @@ Kontrol maddeleri:
 - [ ] Rules `promptText` boş kayıtları engelliyor.
 - [ ] Rules `status` değerini izin verilen key’lerle sınırlıyor.
 - [ ] Rules `schemaVersion` varlığını kontrol edecek şekilde planlandı veya değerlendirildi.
+- [ ] Rules `schemaVersion == 1` kontrolünü içeriyor veya final review için açık not olarak tutuluyor.
+- [ ] Rules `tags` alanını array/list olarak kontrol ediyor.
+- [ ] Rules `variables` alanını array/list olarak kontrol ediyor.
+- [ ] Rules `title`, `description`, `notes` ve `category` alanlarını string veya null olarak kabul edecek şekilde planlandı.
+- [ ] Rules create sırasında document id ile `id` alanı uyumunu kontrol ediyor veya final review için değerlendiriyor.
 - [ ] Rules aşırı gevşek değil.
 
 Özellikle şu yaklaşım tek başına yeterli değildir:
@@ -268,8 +273,13 @@ V1’de aşağıdaki güvenlik/altyapı yüzeyleri eklenmemiş olmalı:
 
 - [ ] Farklı `ownerId` ile create denemesi reddedilir.
 - [ ] `ownerId` değiştirme update’i reddedilir.
+- [ ] Başka `userId` path’ine create denemesi reddedilir.
+- [ ] Başka `userId` path’inde read/update denemesi reddedilir.
+- [ ] Document id ile veri içindeki `id` uyuşmazlığı reddedilir veya final rules review’da karara bağlanır.
 - [ ] Boş `promptText` reddedilir.
 - [ ] Geçersiz `status` reddedilir.
+- [ ] `schemaVersion` 1 değilse reddedilir.
+- [ ] `tags` veya `variables` array/list değilse reddedilir.
 - [ ] Delete isteği reddedilir.
 
 ## 20. AI Review Hatırlatma
