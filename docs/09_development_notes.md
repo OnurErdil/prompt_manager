@@ -790,3 +790,30 @@ Bilinçli bekleyen konu:
 - Realtime Database kullanılmayacak; varsa rules kapalı tutulacak.
 
 M1 — App Shell / Routing / Auth aşamasına geçilebilir.
+
+## M2 — PromptCard Domain Model
+
+M2 kapsamında PromptCard domain model çekirdeği saf Dart olarak eklendi.
+
+Tamamlananlar:
+- PromptStatus enum oluşturuldu.
+- Status teknik key dönüşümleri eklendi.
+- Geçersiz status key için PromptStatus.raw fallback tanımlandı.
+- PromptCard entity oluşturuldu.
+- schemaVersion varsayılan değeri 1 olarak belirlendi.
+- status varsayılan değeri PromptStatus.raw olarak belirlendi.
+- promptText için boş / whitespace kontrolü eklendi.
+- hasVariables, isArchived, effectiveTitle ve copyWith yardımcı davranışları eklendi.
+- [DEĞİŞKEN_ADI] standardı için PromptVariableParser oluşturuldu.
+- Değişken algılama testleri eklendi.
+- PromptCard ve PromptStatus domain testleri eklendi.
+
+Kontroller:
+- flutter analyze temiz geçti.
+- flutter test temiz geçti.
+- 26 test başarılı.
+- Firebase, Firestore, DTO, mapper, repository, service, provider, UI veya yeni paket eklenmedi.
+- usageCount, lastUsedAt ve versionHistory gibi V1 dışı alanlar eklenmedi.
+
+Not:
+M2 sonunda domain model Firestore data layer için hazırdır. Gerçek Firestore DTO / mapper / repository bağlantısı M3’e bırakılmıştır.
