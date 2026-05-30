@@ -113,9 +113,9 @@ Ne yapılacak veya nereye taşınacak?
 
 ## 6. Aktif Milestone Durumu
 
-**Aktif milestone:** M2 — PromptCard Domain Model  
-**Son tamamlanan milestone:** M1 — App Shell, Routing ve Auth  
-**Sonraki ana çalışma:** M2 başlangıç planı, Firebase’den bağımsız PromptCard domain modeli, status/değişken/validation sınırları
+**Aktif milestone:** M4 — İlk Çekirdek Akış  
+**Son tamamlanan milestone:** M3 — Data Layer ve Firestore Bağlantısı  
+**Sonraki ana çalışma:** M4 başlangıç planı, hızlı ekle → Firestore kayıt → kütüphanede görme çekirdek akışı
 ---
 
 ## 7. Milestone Bazlı Notlar
@@ -264,6 +264,60 @@ Beklenen not alanları:
 ---
 
 ### M3 — Data Layer ve Firestore Bağlantısı
+
+## M3 Kapanış Notu — 2026-05-29
+
+Milestone: M3  
+Kategori: Test / Güvenlik / Mimari / Scope  
+Durum: Kapanmış
+
+### Yapılanlar
+- PromptCardDto oluşturuldu.
+- PromptCardMapper oluşturuldu.
+- PromptRepository domain contract oluşturuldu.
+- PromptFirestoreService oluşturuldu.
+- FirestorePromptRepository implementation oluşturuldu.
+- cloud_firestore dependency eklendi.
+- Firestore path standardı `users/{userId}/prompts/{promptId}` olarak korundu.
+- PromptFirestoreService içinde path helperları merkezi tutuldu.
+- watchPrompts `updatedAt` descending sıralama kullanacak şekilde hazırlandı.
+- Timestamp / DateTime dönüşümü data/service katmanında tutuldu.
+- Domain modeli Firestore’dan izole kaldı.
+- FirestorePromptRepository doğrudan FirebaseFirestore kullanmadan mapper + service üzerinden çalışıyor.
+- DTO / mapper / service / repository testleri eklendi.
+- Firestore rules-readiness dokümantasyonu ve checklist güncellemeleri tamamlandı.
+- Root `firestore.rules` oluşturulmadı.
+- Rules deploy edilmedi.
+
+### Kontrol edilenler
+- `flutter analyze` temiz geçti.
+- `flutter test` temiz geçti ve 41 test geçti.
+- Git durumu temiz.
+- Dış review ve Codex kapanış audit sonucunda blocker bulunmadı.
+
+### Kapsam dışı bırakılanlar
+- UI ekranı eklenmedi.
+- Provider/Riverpod bağlantısı eklenmedi.
+- Hızlı Ekle ekranı eklenmedi.
+- Prompt kütüphanesi UI eklenmedi.
+- Usecase eklenmedi.
+- AI özelliği eklenmedi.
+- deletePrompt eklenmedi.
+- archivePrompt eklenmedi.
+- usageCount eklenmedi.
+- lastUsedAt eklenmedi.
+- versionHistory eklenmedi.
+- variable metadata eklenmedi.
+- category koleksiyonu eklenmedi.
+
+### Park notları
+- M6/M10’da createdAt değişmezliği Firestore rules tarafında sıkılaştırılmalı.
+- Final rules review’da tags ve variables eleman bazlı string kontrolü değerlendirilmeli.
+- M4 sonrası veya V1.5’te watchPrompts için limit, pagination ve Firestore read cost konusu ele alınmalı.
+
+### Kapanış kararı
+- [x] M3 — Data Layer / Firestore aşaması kapanabilir.
+- [x] M4 — İlk Çekirdek Akış aşamasına geçilebilir.
 
 ## M3.7 — Firestore Rules-Readiness Notu — 2026-05-29
 
