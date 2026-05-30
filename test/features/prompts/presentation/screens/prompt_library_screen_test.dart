@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:prompt_manager/app/router/route_names.dart';
 import 'package:prompt_manager/features/auth/domain/entities/app_user.dart';
 import 'package:prompt_manager/features/auth/domain/repositories/auth_repository.dart';
 import 'package:prompt_manager/features/auth/presentation/providers/auth_providers.dart';
@@ -41,6 +43,32 @@ void main() {
     expect(find.text('Write a launch plan for [PRODUCT].'), findsWidgets);
     expect(find.textContaining('Durum: raw'), findsOneWidget);
   });
+
+  testWidgets('opens detail route when list item is tapped', (tester) async {
+    await tester.pumpWidget(
+      _libraryRouterTestApp(
+        prompts: <PromptCard>[
+          PromptCard(
+            id: 'prompt-1',
+            ownerId: 'user-1',
+            title: '',
+            promptText: 'Open this prompt.',
+            description: '',
+            notes: '',
+            category: '',
+            createdAt: DateTime(2026, 5, 30),
+            updatedAt: DateTime(2026, 5, 30, 12),
+          ),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Open this prompt.').first);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Detail prompt-1'), findsOneWidget);
+  });
 }
 
 Widget _libraryTestApp({required List<PromptCard> prompts}) {
@@ -56,6 +84,40 @@ Widget _libraryTestApp({required List<PromptCard> prompts}) {
       ),
     ],
     child: const MaterialApp(home: PromptLibraryScreen()),
+  );
+}
+
+Widget _libraryRouterTestApp({required List<PromptCard> prompts}) {
+  final router = GoRouter(
+    initialLocation: RoutePaths.library,
+    routes: [
+      GoRoute(
+        path: RoutePaths.library,
+        builder: (context, state) => const PromptLibraryScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.promptDetail,
+        builder: (context, state) {
+          return Scaffold(
+            body: Text('Detail ${state.pathParameters['promptId']}'),
+          );
+        },
+      ),
+    ],
+  );
+
+  return ProviderScope(
+    overrides: [
+      authRepositoryProvider.overrideWith(
+        (ref) => _FakeAuthRepository(
+          currentUserValue: const AppUser(id: 'user-1', email: null),
+        ),
+      ),
+      promptRepositoryProvider.overrideWith(
+        (ref) => _FakePromptRepository(prompts: prompts),
+      ),
+    ],
+    child: MaterialApp.router(routerConfig: router),
   );
 }
 

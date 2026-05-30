@@ -43,6 +43,19 @@ final currentUserPromptsProvider = StreamProvider.autoDispose<List<PromptCard>>(
   },
 );
 
+final promptDetailProvider = FutureProvider.autoDispose
+    .family<PromptCard?, String>((ref, promptId) {
+      final authRepository = ref.watch(authRepositoryProvider);
+      final user = authRepository.currentUser;
+
+      if (user == null || promptId.trim().isEmpty) {
+        return Future<PromptCard?>.value();
+      }
+
+      final repository = ref.watch(promptRepositoryProvider);
+      return repository.getPromptById(userId: user.id, promptId: promptId);
+    });
+
 final quickAddPromptControllerProvider =
     StateNotifierProvider.autoDispose<
       QuickAddPromptController,

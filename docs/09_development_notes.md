@@ -420,15 +420,66 @@ Durum: Kapanmış
 
 ### M5 — Prompt Detay ve Normal Kopyala
 
-Henüz not yok.
+## M5 Kapanış Notu — 2026-05-30
 
-Beklenen not alanları:
+Milestone: M5  
+Kategori: AI Review / Mimari / Scope / Test  
+Durum: Kapanmış
 
-- Prompt detay ekranı,
-- Prompt metni görüntüleme,
-- Normal Kopyala,
-- Clipboard davranışı,
-- `updatedAt` değişmeme kontrolü.
+### Not
+M5 kod audit'i tamamlandı. Prompt Detay ekranı, `/library/:promptId` route'u, kütüphane liste item'ından detaya geçiş ve Normal Kopyala akışı M5 kapsamına uygun şekilde eklendi.
+
+### Yapılanlar
+- Prompt Detay ekranı eklendi.
+- `/library/:promptId` route'u eklendi.
+- Kütüphane list item tap ile doğru `promptId` kullanılarak detay ekranına geçiş eklendi.
+- Detay verisi `PromptRepository.getPromptById(userId, promptId)` ile okunuyor.
+- User yoksa veya `promptId` boşsa Firestore sorgusu yapılmıyor.
+- Loading, error, not found ve data state'leri ele alındı.
+- Prompt metni okunabilir ve seçilebilir şekilde gösteriliyor.
+- Normal Kopyala yalnızca `promptText` değerini Clipboard'a kopyalıyor.
+- Kopyalama sonrası snackbar feedback gösteriliyor.
+
+### Kontrol edilenler
+- UI/app katmanında doğrudan `FirebaseFirestore` veya `FirebaseAuth` kullanımı görülmedi.
+- Presentation tarafına DTO, snapshot, Firestore path veya `FirebaseFirestore.instance` sızmadı.
+- Akış Screen → Provider → Repository → Service → Firebase çizgisinde korundu.
+- Kopyalama sonrası Firestore write yapılmadığı doğrulandı.
+- Normal Kopyala `updatedAt`, `usageCount` veya `lastUsedAt` değiştirmiyor.
+- `schemaVersion` UI'da gösterilmiyor.
+- Boş description, notes, category, tags ve variables alanları gizleniyor.
+- `flutter analyze` temiz geçti.
+- `flutter test` temiz geçti ve 53 test geçti.
+
+### Kapsam dışı bırakılanlar
+- Prompt düzenleme eklenmedi.
+- Status değiştirme eklenmedi.
+- Arşivleme eklenmedi.
+- Kalıcı silme eklenmedi.
+- Detaylı Ekle eklenmedi.
+- Arama / filtreleme eklenmedi.
+- Değişkenli kopyala-doldur eklenmedi.
+- Usage analytics, `usageCount`, `lastUsedAt` ve version history eklenmedi.
+- AI özelliği eklenmedi.
+- Import/export eklenmedi.
+
+### Manuel smoke test notu
+- Login ol.
+- Prompt ekle.
+- Library list item'a dokun.
+- Detail ekranının doğru prompt metniyle açıldığını kontrol et.
+- Normal Kopyala'ya dokun.
+- Başka yere yapıştır ve yalnızca `promptText` geldiğini doğrula.
+- Firestore'da `updatedAt`, `usageCount` ve `lastUsedAt` değişmediğini kontrol et.
+
+### Belge / checklist durumu
+- `docs/checklists/m5_prompt_detail_copy_checklist.md` oluşturuldu.
+- M5 checklist referansı `docs/05_milestone_plan.md` ile uyumlu.
+
+### Kapanış kararı
+- [x] Bu milestone kapanabilir.
+- [x] M6 — Prompt Düzenleme, Status ve Arşiv aşamasına geçilebilir.
+
 
 ---
 

@@ -196,36 +196,40 @@ class _PromptListItem extends StatelessWidget {
     return Material(
       color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.42),
       borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              prompt.effectiveTitle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w800,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () => context.go(RoutePaths.promptDetailLocation(prompt.id)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                prompt.effectiveTitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              preview,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+              const SizedBox(height: 8),
+              Text(
+                preview,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Durum: ${prompt.status.key} | Guncel: ${_formatDate(prompt.updatedAt)}',
-              style: textTheme.labelMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+              const SizedBox(height: 12),
+              Text(
+                'Durum: ${prompt.status.key} | Guncel: ${_formatDate(prompt.updatedAt)}',
+                style: textTheme.labelMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
