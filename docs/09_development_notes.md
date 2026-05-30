@@ -314,6 +314,7 @@ Durum: Kapanmış
 - M6/M10’da createdAt değişmezliği Firestore rules tarafında sıkılaştırılmalı.
 - Final rules review’da tags ve variables eleman bazlı string kontrolü değerlendirilmeli.
 - M4 sonrası veya V1.5’te watchPrompts için limit, pagination ve Firestore read cost konusu ele alınmalı.
+- Root `firestore.rules` M4 veya güvenlik kapanışı sırasında ele alınacak şekilde park edildi.
 
 ### Kapanış kararı
 - [x] M3 — Data Layer / Firestore aşaması kapanabilir.
@@ -334,44 +335,86 @@ M4 create/read akışına geçmeden önce kullanıcı izolasyonu, `ownerId`, val
 ### Aksiyon
 M4 sonunda create/read cross-user testleri yapılacak. M6 sonunda update/archive güvenliği tekrar kontrol edilecek. M10 final güvenlik kapanışında taslak rules dış review ve gerçek rules dosyası/deploy hazırlığıyla yeniden ele alınacak.
 
-Beklenen not alanları:
-
-- Firestore service,
-- DTO,
-- Mapper,
-- Repository implementation,
-- `users/{uid}/prompts/{promptId}` path kullanımı,
-- `ownerId` davranışı,
-- İlk Firestore security rules taslağı,
-- Cross-user read/create ilk kontrolü.
-
 ---
 
 ### M4 — İlk Çekirdek Akış
 
-## M4 Manual Test ve Firestore Rules Notu — 2026-05-30
+## M4 Kapanış Notu — 2026-05-30
 
 Milestone: M4  
-Kategori: Test / Guvenlik / Hata  
-Durum: Cozuldu / Izlenecek
+Kategori: Test / Güvenlik / Mimari / Scope  
+Durum: Kapanmış
 
-### Not
-M4 manuel testinde login/register ve `/library` routing calisti; ancak Firestore read/create akisi baslangicta hata verdi. Firebase Console Rules sekmesinde mevcut kuralin `allow read, write: if false;` oldugu goruldu. M4 minimum user-scoped read/create rules elle Firebase Console'da yayinlandi ve manuel testte Hizli Ekle -> Firestore create -> watchPrompts ile kutuphanede gorunme akisi basarili calisti.
+### Yapılanlar
+- Prompt Library placeholder ekranı minimum gerçek kütüphane ekranına dönüştürüldü.
+- Hızlı Ekle ekranı eklendi.
+- Kullanıcının yalnızca `promptText` girerek prompt oluşturabilmesi sağlandı.
+- PromptCard default alanları oluşturuldu.
+- `variables` alanı `PromptVariableParser` ile prompt metninden çıkarıldı.
+- Yeni promptlar `PromptStatus.raw` ile oluşturuldu.
+- Yeni promptlar `schemaVersion: 1` ile oluşturuldu.
+- `createdAt` ve `updatedAt` alanları oluşturuldu.
+- Firestore create akışı bağlandı.
+- `watchPrompts` ile promptların kütüphanede listelenmesi sağlandı.
+- Prompt Library ekranında loading, error, empty ve data state davranışları eklendi.
+- Hızlı Ekle ekranında boş prompt validation, loading state, error feedback ve başarılı kayıt sonrası kütüphaneye dönüş davranışı eklendi.
+- Route yapısına Hızlı Ekle için `/library/quick-add` yolu eklendi.
+- Provider/controller zinciri kuruldu.
+- UI/app katmanında doğrudan Firebase erişimi yapılmadı.
+- Veri akışı Screen → Provider/Controller → Repository → Service → Firebase çizgisinde korundu.
 
-### Etki
-M4 icin kullaniciya bagli prompt create/read akisi calisir hale geldi. Root `firestore.rules` dosyasi ve `firebase.json` rules path'i projeye eklendi; boylece Console'da calisan rules karari repo icinde izlenebilir oldu.
+### Manuel test ve Firestore rules çözümü
+- İlk manuel testte login/register çalıştı ve `/library` ekranı açıldı.
+- Promptlar yüklenemedi ve Hızlı Ekle kayıt atamadı.
+- Sorunun uygulama kodundan değil, Firebase Console’daki Firestore rules’un `allow read, write: if false;` ile read/create işlemlerini kapatmasından kaynaklandığı tespit edildi.
+- Firebase Console’da M4 için user-scoped read/create rules elle yayınlandı.
+- Sonrasında login → library → quick add → Firestore create → `watchPrompts` ile listede görme akışı başarıyla çalıştı.
 
-### Aksiyon
-M4 rules kapsami sadece read/create ile sinirli tutuldu. Update/delete kapali kalacak. M6'da update/archive rules ayrica ele alinacak. M10 final guvenlik kapanisinda cross-user read/create, update/archive ve delete kapali davranisi tekrar test edilecek.
+### Rules kararı
+- Root `firestore.rules` dosyası oluşturuldu.
+- `firebase.json`, `firestore.rules` dosyasını tanıyacak şekilde güncellendi.
+- `users/{userId}/prompts/{promptId}` path’i için read sadece owner kullanıcıya açık bırakıldı.
+- Create sadece owner kullanıcıya açık bırakıldı.
+- Create sırasında `ownerId`, `promptText`, `status == raw` ve `schemaVersion == 1` kontrolleri eklendi.
+- Update/delete kapalı bırakıldı.
+- Fallback deny korundu.
 
-Beklenen not alanları:
+### Kontrol edilenler
+- `flutter analyze` temiz geçti.
+- `flutter test` temiz geçti ve 45 test geçti.
+- M4 kapsam dışı özellik sızıntısı görülmedi.
+- Mimari sınır korundu.
+- Canlı manuel testte Firestore create/list akışı çalıştı.
+- M4 kapanabilir kabul edildi.
+- M5’e geçiş için blocker yok.
 
-- Kütüphane boş hâli,
-- Hızlı Ekle,
-- Firestore’a kullanıcıya bağlı kayıt,
-- Kütüphanede görme,
-- Kullanıcı izolasyonu,
-- İlk uçtan uca dikey akış.
+### Kapsam dışı bırakılanlar
+- Prompt detay ekranı eklenmedi.
+- Normal kopyala eklenmedi.
+- Prompt düzenleme eklenmedi.
+- Status değiştirme eklenmedi.
+- Arşivleme eklenmedi.
+- Detaylı Ekle eklenmedi.
+- Arama / filtreleme eklenmedi.
+- Değişkenli kopyala-doldur eklenmedi.
+- AI özelliği eklenmedi.
+- Import/export eklenmedi.
+- Usage analytics eklenmedi.
+- Kalıcı silme eklenmedi.
+
+### Park notları
+- Firebase CLI yerel makinede PATH’te olmadığı için `firebase deploy --only firestore:rules` çalışmadı.
+- Console rules elle yayınlandı.
+- Firebase CLI kurulumu ve deploy doğrulaması M4 sonrası operasyonel park notu olarak takip edilecek.
+- M6’da update/archive rules ayrıca ele alınacak.
+- M10’da final security review, cross-user testleri ve rules doğrulaması yapılacak.
+- Controller içinde id üretimi M4 için kabul edildi; ileride repository/service sınırına taşınması değerlendirilebilir.
+- Auth loading sırasında kısa empty-state flicker ihtimali M4 için blocker kabul edilmedi.
+- Eski `prompt_library_placeholder_screen.dart` route’tan çıkarıldı ama dosya hâlâ duruyorsa ileride temizlik olarak kaldırılabilir.
+
+### Kapanış kararı
+- [x] M4 — İlk Çekirdek Akış aşaması kapanabilir.
+- [x] M5 — Prompt Detay ve Normal Kopyala aşamasına geçilebilir.
 
 ---
 
