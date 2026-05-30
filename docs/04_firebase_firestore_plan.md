@@ -530,6 +530,10 @@ Notlar:
 - Hızlı Ekle Firestore’a kayıt atar.
 - Kullanıcı kendi promptlarını kütüphanede görür.
 - Read/create kullanıcı izolasyonu kontrol edilir.
+- M4 manuel testinde Firebase Console'daki default deny rules nedeniyle read/create hatasi goruldu.
+- M4 minimum user-scoped read/create rules Console'da yayinlaninca akisin calistigi dogrulandi.
+- Bu karar root `firestore.rules` dosyasina ve `firebase.json` rules path'ine tasindi.
+- M4 rules kapsami read/create ile sinirlidir; update/delete kapali kalir.
 
 ### M6 — Prompt Düzenleme, Status ve Arşiv
 

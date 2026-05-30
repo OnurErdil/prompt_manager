@@ -307,3 +307,13 @@ M4 tamamlandı sayılabilmesi için:
 ## 22. Kapanış Notu
 
 M4, V1’in ilk gerçek ürün nabzıdır. Bu milestone sonunda kullanıcı değerli bir promptu sisteme atıp kendi kütüphanesinde görebiliyorsa, ürünün çekirdek kalbi ilk kez atmaya başlamış demektir.
+## 23. M4 Manual Firestore Rules Notu
+
+- [x] Firebase Console'da default deny (`allow read, write: if false;`) nedeniyle read/create hatasi goruldu.
+- [x] M4 minimum user-scoped read/create rules Console'da yayinlandi.
+- [x] Manuel testte login/register -> library -> Hizli Ekle -> Firestore create -> watchPrompts list akisi basarili calisti.
+- [x] Root `firestore.rules` dosyasi projeye eklendi.
+- [x] `firebase.json` icinde Firestore rules path'i `firestore.rules` olarak tanimlandi.
+- [x] Update/delete M4 kapsaminda kapali tutuldu.
+- [x] Genel fallback deny kurali korundu.
+- [ ] M10 final guvenlik kapanisinda rules tekrar review edilecek.

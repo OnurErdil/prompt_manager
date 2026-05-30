@@ -1,1 +1,25 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"prompt-manager-65273","appId":"1:681296444869:android:31c2a54b2fa22835e8dfac","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"prompt-manager-65273","configurations":{"android":"1:681296444869:android:31c2a54b2fa22835e8dfac","ios":"1:681296444869:ios:5e554d72dd0720dae8dfac"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "prompt-manager-65273",
+          "appId": "1:681296444869:android:31c2a54b2fa22835e8dfac",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "prompt-manager-65273",
+          "configurations": {
+            "android": "1:681296444869:android:31c2a54b2fa22835e8dfac",
+            "ios": "1:681296444869:ios:5e554d72dd0720dae8dfac"
+          }
+        }
+      }
+    }
+  }
+}

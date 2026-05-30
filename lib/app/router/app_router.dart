@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/auth_gate_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
-import '../../features/prompts/presentation/screens/prompt_library_placeholder_screen.dart';
+import '../../features/prompts/presentation/screens/prompt_library_screen.dart';
+import '../../features/prompts/presentation/screens/quick_add_prompt_screen.dart';
 import '../../features/settings/presentation/screens/settings_placeholder_screen.dart';
 import 'route_names.dart';
 
@@ -28,7 +29,12 @@ final appRouter = GoRouter(
     GoRoute(
       path: RoutePaths.library,
       name: RouteNames.library,
-      builder: (context, state) => const PromptLibraryPlaceholderScreen(),
+      builder: (context, state) => const PromptLibraryScreen(),
+    ),
+    GoRoute(
+      path: RoutePaths.quickAddPrompt,
+      name: RouteNames.quickAddPrompt,
+      builder: (context, state) => const QuickAddPromptScreen(),
     ),
     GoRoute(
       path: RoutePaths.settings,

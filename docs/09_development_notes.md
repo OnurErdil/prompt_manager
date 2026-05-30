@@ -349,7 +349,20 @@ Beklenen not alanları:
 
 ### M4 — İlk Çekirdek Akış
 
-Henüz not yok.
+## M4 Manual Test ve Firestore Rules Notu — 2026-05-30
+
+Milestone: M4  
+Kategori: Test / Guvenlik / Hata  
+Durum: Cozuldu / Izlenecek
+
+### Not
+M4 manuel testinde login/register ve `/library` routing calisti; ancak Firestore read/create akisi baslangicta hata verdi. Firebase Console Rules sekmesinde mevcut kuralin `allow read, write: if false;` oldugu goruldu. M4 minimum user-scoped read/create rules elle Firebase Console'da yayinlandi ve manuel testte Hizli Ekle -> Firestore create -> watchPrompts ile kutuphanede gorunme akisi basarili calisti.
+
+### Etki
+M4 icin kullaniciya bagli prompt create/read akisi calisir hale geldi. Root `firestore.rules` dosyasi ve `firebase.json` rules path'i projeye eklendi; boylece Console'da calisan rules karari repo icinde izlenebilir oldu.
+
+### Aksiyon
+M4 rules kapsami sadece read/create ile sinirli tutuldu. Update/delete kapali kalacak. M6'da update/archive rules ayrica ele alinacak. M10 final guvenlik kapanisinda cross-user read/create, update/archive ve delete kapali davranisi tekrar test edilecek.
 
 Beklenen not alanları:
 
