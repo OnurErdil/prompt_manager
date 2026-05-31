@@ -2,19 +2,102 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId}/prompts/{promptId} {
-      allow read: if request.auth != null
-                  && request.auth.uid == userId;
+    function isSignedInOwner(userId) {
+      return request.auth != null
+             && request.auth.uid == userId;
+    }
 
-      allow create: if request.auth != null
-                    && request.auth.uid == userId
+    function isValidStatus(status) {
+      return status == "raw"
+             || status == "needs_edit"
+             || status == "ready"
+             || status == "archived";
+    }
+
+    function hasValidPromptKeys() {
+      return request.resource.data.keys().hasOnly([
+        "id",
+        "ownerId",
+        "title",
+        "promptText",
+        "description",
+        "notes",
+        "category",
+        "tags",
+        "status",
+        "variables",
+        "createdAt",
+        "updatedAt",
+        "schemaVersion"
+      ]);
+    }
+
+    function hasOnlyEditablePromptChanges() {
+      return request.resource.data.diff(resource.data).addedKeys().hasOnly([
+        "title",
+        "promptText",
+        "description",
+        "notes",
+        "category",
+        "tags",
+        "status",
+        "variables",
+        "updatedAt"
+      ])
+      && request.resource.data.diff(resource.data).changedKeys().hasOnly([
+        "title",
+        "promptText",
+        "description",
+        "notes",
+        "category",
+        "tags",
+        "status",
+        "variables",
+        "updatedAt"
+      ])
+      && !request.resource.data.diff(resource.data).removedKeys().hasAny([
+        "id",
+        "ownerId",
+        "title",
+        "promptText",
+        "description",
+        "notes",
+        "category",
+        "tags",
+        "status",
+        "variables",
+        "createdAt",
+        "updatedAt",
+        "schemaVersion"
+      ]);
+    }
+
+    match /users/{userId}/prompts/{promptId} {
+      allow read: if isSignedInOwner(userId);
+
+      allow create: if isSignedInOwner(userId)
+                    && hasValidPromptKeys()
                     && request.resource.data.ownerId == request.auth.uid
                     && request.resource.data.promptText is string
                     && request.resource.data.promptText.size() > 0
                     && request.resource.data.status == "raw"
                     && request.resource.data.schemaVersion == 1;
 
-      allow update, delete: if false;
+      allow update: if isSignedInOwner(userId)
+                    && hasValidPromptKeys()
+                    && hasOnlyEditablePromptChanges()
+                    && resource.data.ownerId == request.auth.uid
+                    && request.resource.data.ownerId == resource.data.ownerId
+                    && request.resource.data.createdAt == resource.data.createdAt
+                    && request.resource.data.schemaVersion == resource.data.schemaVersion
+                    && request.resource.data.schemaVersion == 1
+                    && request.resource.data.promptText is string
+                    && request.resource.data.promptText.size() > 0
+                    && isValidStatus(request.resource.data.status)
+                    && request.resource.data.updatedAt is timestamp
+                    && request.resource.data.updatedAt != resource.data.updatedAt;
+
+      allow delete: if false;
     }
 
     match /{document=**} {

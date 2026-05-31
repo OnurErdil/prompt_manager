@@ -4,6 +4,7 @@ import '../../features/auth/presentation/screens/auth_gate_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/prompts/presentation/screens/prompt_detail_screen.dart';
+import '../../features/prompts/presentation/screens/prompt_edit_screen.dart';
 import '../../features/prompts/presentation/screens/prompt_library_screen.dart';
 import '../../features/prompts/presentation/screens/quick_add_prompt_screen.dart';
 import '../../features/settings/presentation/screens/settings_placeholder_screen.dart';
@@ -44,6 +45,15 @@ final appRouter = GoRouter(
         final promptId = state.pathParameters['promptId'];
 
         return PromptDetailScreen(promptId: promptId ?? '');
+      },
+    ),
+    GoRoute(
+      path: RoutePaths.promptEdit,
+      name: RouteNames.promptEdit,
+      builder: (context, state) {
+        final promptId = state.pathParameters['promptId'];
+
+        return PromptEditScreen(promptId: promptId ?? '');
       },
     ),
     GoRoute(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../app/router/route_names.dart';
 import '../../domain/entities/prompt_card.dart';
 import '../providers/prompt_providers.dart';
 
@@ -51,6 +53,12 @@ class _PromptDetailData extends StatelessWidget {
           style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: 16),
+        OutlinedButton.icon(
+          onPressed: () => context.go(RoutePaths.promptEditLocation(prompt.id)),
+          icon: const Icon(Icons.edit_outlined),
+          label: const Text('Duzenle'),
+        ),
+        const SizedBox(height: 8),
         FilledButton.icon(
           onPressed: () => _copyPromptText(context, prompt.promptText),
           icon: const Icon(Icons.copy_outlined),

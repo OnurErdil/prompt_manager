@@ -57,7 +57,7 @@ class PromptFirestoreService {
     return _promptDocument(
       userId: dto.ownerId,
       promptId: dto.id,
-    ).update(_toFirestoreMap(dto));
+    ).set(_toFirestoreMap(dto));
   }
 
   CollectionReference<Map<String, dynamic>> _promptsCollection(String userId) {

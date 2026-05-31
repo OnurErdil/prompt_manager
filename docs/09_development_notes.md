@@ -485,18 +485,79 @@ M5 kod audit'i tamamlandı. Prompt Detay ekranı, `/library/:promptId` route'u, 
 
 ### M6 — Prompt Düzenleme, Status ve Arşiv
 
-Henüz not yok.
+## M6 Kapanış Notu — 2026-05-31
 
-Beklenen not alanları:
+Milestone: M6  
+Kategori: Mimari / Scope / Güvenlik / Test / Cihaz Testi  
+Durum: Kapanmış
 
-- Prompt düzenleme,
-- Status değiştirme,
-- Arşivleme,
-- `status: archived`,
-- `ownerId` değiştirilememe,
-- `createdAt` korunması,
-- `updatedAt` güncellenmesi,
-- Kalıcı delete’in V1’e sızmaması.
+### Not
+M6 uygulaması ve kapanış öncesi audit tamamlandı. Prompt düzenleme, status değiştirme ve arşivleme davranışı V1 kapsamına uygun şekilde eklendi. Canlı Firestore rules publish sonrası edit kaydı başarıyla doğrulandı.
+
+### Yapılanlar
+- `/library/:promptId/edit` route'u eklendi.
+- Detay ekranından düzenleme ekranına geçiş eklendi.
+- Prompt edit ekranı eklendi.
+- Başlık, prompt metni, açıklama, notlar, kategori, tags ve status düzenlenebilir hale getirildi.
+- Tags virgül ayrımlı input olarak çalışıyor.
+- `promptText` boşsa kayıt engelleniyor.
+- `promptText` değişince `variables` alanı `PromptVariableParser` ile yeniden parse ediliyor.
+- `updatedAt` kayıt sırasında yenileniyor.
+- `id`, `ownerId`, `createdAt` ve `schemaVersion` korunuyor.
+- Arşiv ayrı delete aksiyonu değildir; status dropdown içindeki `archived` seçeneğiyle yapılıyor.
+- Archived promptlar M8 filtreleme gelene kadar kütüphanede görünmeye devam ediyor.
+- Kalıcı delete kapalı tutuldu.
+
+### Firestore rules ve güvenlik
+- Firestore rules update/create canonical key kontrolüyle güçlendirildi.
+- Canonical PromptCard alanları dışındaki extra alanlar engelleniyor.
+- Legacy extra alanlı eski dokümanlar edit sırasında canonical `set()` ile temizleniyor.
+- Update yalnızca authenticated owner için açık.
+- `ownerId`, `createdAt` ve `schemaVersion` değiştirilemiyor.
+- `schemaVersion` `1` kalıyor.
+- `promptText` non-empty string olmak zorunda.
+- Status yalnızca `raw`, `needs_edit`, `ready`, `archived` olabilir.
+- `delete` kapalı ve global fallback deny korunuyor.
+- Rules Firebase Console üzerinden publish edildi ve canlı edit testi başarılı oldu.
+
+### Kontrol edilenler
+- UI/app katmanında doğrudan `FirebaseFirestore` veya `FirebaseAuth` kullanımı görülmedi.
+- Presentation tarafına DTO, snapshot, Firestore path veya `FirebaseFirestore.instance` sızmadı.
+- Akış Screen → Provider/Controller → Repository → Service → Firebase çizgisinde korundu.
+- Edit sonrası detay ve liste provider cache'i invalidate ediliyor.
+- `flutter analyze` temiz geçti.
+- `flutter test` temiz geçti ve 62 test geçti.
+
+### Kapsam dışı bırakılanlar
+- Kalıcı silme eklenmedi.
+- Version history eklenmedi.
+- Usage analytics, `usageCount` ve `lastUsedAt` eklenmedi.
+- Değişkenli kopyala-doldur eklenmedi.
+- Detaylı Ekle eklenmedi.
+- Arama / filtreleme eklenmedi.
+- AI özelliği eklenmedi.
+- Import/export eklenmedi.
+- Koleksiyonlar, gelişmiş tag yönetimi, gelişmiş kategori koleksiyonu ve Prompt Health Check eklenmedi.
+
+### Manuel smoke test notu
+- Login olundu.
+- Prompt detayından düzenleme ekranına geçiş kontrol edildi.
+- Prompt alanları güncellendi ve kaydedildi.
+- Firestore rules Firebase Console'da publish edildikten sonra canlı edit kaydı başarılı oldu.
+- Yeni ve eski prompt dokümanlarında canonical update davranışı ayrıca M10 final security review içinde tekrar gözden geçirilecek.
+
+### Park notları
+- Firebase CLI/PATH ve rules deploy komutu hâlâ operasyonel olarak çözülmeli. Şimdilik rules Firebase Console üzerinden publish edildi.
+- M10'da final security review sırasında rules tekrar gözden geçirilmeli.
+- V1.5/V2'de server-owned alanlar eklenirse `set()` ile canonical replace davranışı tekrar değerlendirilmeli.
+
+### Belge / checklist durumu
+- `docs/checklists/m6_prompt_edit_status_archive_checklist.md` oluşturuldu.
+
+### Kapanış kararı
+- [x] Bu milestone kapanabilir.
+- [x] M7 — Detaylı Ekle aşamasına geçilebilir.
+
 
 ---
 
