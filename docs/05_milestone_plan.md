@@ -6,7 +6,7 @@
 **Sürüm:** v0.1  
 **Durum:** 0.9 kapsamında hazırlanmış kodlama öncesi kaynak belge  
 **Kapsam:** Prompt Yönetim Aracı V1 geliştirme sırası, milestone hedefleri, çıktılar ve geçiş kontrolleri  
-**Son güncelleme:** 2026-05-25
+**Son güncelleme:** 2026-05-31
 
 Bu belge, Prompt Yönetim Aracı V1 geliştirme sürecinin M0’dan M10’a kadar hangi sırayla ilerleyeceğini tanımlar. Amaç, kodlama başladıktan sonra geliştirme yönünün dağılmasını önlemek ve her milestone sonunda neyin tamamlanmış sayılacağını netleştirmektir.
 
@@ -78,6 +78,15 @@ Bir milestone’da açık kalan kritik konu varsa, konu `09_development_notes.md
 | M8 | Arama/filtreleme | Kütüphane bulunabilirlik sistemi çalışıyor |
 | M9 | Değişkenli kullanım | Değişkenli Kopyala-Doldur çalışıyor |
 | M10 | Kapanış | Güvenlik, test ve V1 kontrolü tamamlanıyor |
+
+---
+
+## Güncel Durum — 2026-05-31
+
+**Son tamamlanan milestone:** M7 — Detaylı Ekle  
+**Aktif / sıradaki milestone:** M8 — Arama / Filtreleme
+
+M7 kapanışıyla kullanıcı, promptu hızlı ekleme dışında temel PromptCard alanlarını doldurarak detaylı şekilde oluşturabilir hale geldi. M8 başlatılmadı; yalnızca sıradaki milestone olarak işaretlendi.
 
 ---
 

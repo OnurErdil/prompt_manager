@@ -6,7 +6,7 @@
 **Sürüm:** v0.1  
 **Durum:** 0.9 kapsamında oluşturuldu  
 **Kapsam:** V1 geliştirme süreci boyunca milestone notları, hata kayıtları, karar adayları, AI review sonuçları, cihaz/platform test gözlemleri ve açık sorular  
-**Son güncelleme:** 2026-05-28
+**Son güncelleme:** 2026-05-31
 
 Bu belge, Prompt Yönetim Aracı V1 geliştirme sürecinde ortaya çıkan operasyonel notları, ara kararları, hata ve çözüm kayıtlarını, test gözlemlerini ve başka belgelere taşınması gereken maddeleri izlemek için kullanılır.
 
@@ -113,9 +113,9 @@ Ne yapılacak veya nereye taşınacak?
 
 ## 6. Aktif Milestone Durumu
 
-**Aktif milestone:** M4 — İlk Çekirdek Akış  
-**Son tamamlanan milestone:** M3 — Data Layer ve Firestore Bağlantısı  
-**Sonraki ana çalışma:** M4 başlangıç planı, hızlı ekle → Firestore kayıt → kütüphanede görme çekirdek akışı
+**Aktif milestone:** M8 — Arama ve Filtreleme  
+**Son tamamlanan milestone:** M7 — Detaylı Ekle  
+**Sonraki ana çalışma:** M8 başlangıç planı, kütüphane içinde arama ve filtreleme akışı
 ---
 
 ## 7. Milestone Bazlı Notlar
@@ -563,18 +563,65 @@ M6 uygulaması ve kapanış öncesi audit tamamlandı. Prompt düzenleme, status
 
 ### M7 — Detaylı Ekle
 
-Henüz not yok.
+## M7 Kapanış Notu — 2026-05-31
 
-Beklenen not alanları:
+Milestone: M7  
+Kategori: Mimari / Scope / Güvenlik / Test / Cihaz Testi  
+Durum: Kapanmış
 
-- Başlık,
-- Açıklama,
-- Notlar,
-- Kategori,
-- Etiketler,
-- Status seçimi,
-- Değişken algılama,
-- Boş / tekrar eden etiket davranışı.
+### Not
+M7 uygulaması, canlı rules publish doğrulaması ve kapanış kontrolü tamamlandı. Kullanıcı artık promptu yalnızca hızlı ekleme ile değil, temel PromptCard alanlarını doldurarak detaylı şekilde oluşturabiliyor.
+
+### Yapılanlar
+- `/library/detailed-add` route'u eklendi.
+- Detaylı Ekle ekranı eklendi.
+- Kütüphane ekranından Detaylı Ekle'ye geçiş eklendi.
+- Hızlı Ekle FAB davranışı korundu.
+- Detaylı Ekle ekranı `title`, `promptText`, `description`, `notes`, `category`, `tags` ve `status` alanlarını destekliyor.
+- `promptText` zorunlu tutuldu.
+- `promptText.trim()` boşsa kayıt engelleniyor.
+- `title`, `description`, `notes` ve `category` trim ediliyor.
+- Tags virgülle split / trim / empty filter davranışıyla `string[]` haline getiriliyor.
+- `variables`, `PromptVariableParser` ile `promptText` üzerinden otomatik çıkarılıyor.
+- `createdAt` ve `updatedAt` kayıt anında oluşturuluyor.
+- `schemaVersion` `1` olarak set ediliyor.
+- `ownerId` authenticated user'dan geliyor.
+- Status seçilebilir hale geldi: `raw`, `needs_edit`, `ready`, `archived`.
+
+### Firestore rules ve güvenlik
+- Firestore create rule, `status == "raw"` yerine `isValidStatus(request.resource.data.status)` olacak şekilde güncellendi.
+- Status create sırasında herhangi bir string olarak serbest bırakılmadı; allowlist korunuyor.
+- Canonical key kontrolü korunuyor.
+- Extra alanlar engellenmeye devam ediyor.
+- Delete kapalı ve global fallback deny korunuyor.
+- Firestore rules Firebase Console üzerinden publish edildi.
+- Canlı create testi başarılı oldu.
+
+### Kontrol edilenler
+- UI doğrudan Firebase Auth / Firestore kullanmıyor.
+- Mimari akış Screen → Provider/Controller → Repository → Service → Firebase çizgisinde korunuyor.
+- `flutter analyze` başarılı.
+- `flutter test` başarılı.
+- Commit/push tamamlandı.
+- `git status --short` boş.
+
+### Kapsam dışı bırakılanlar
+- AI öneri eklenmedi.
+- Import/export eklenmedi.
+- Koleksiyon eklenmedi.
+- Version history eklenmedi.
+- `usageCount` / `lastUsedAt` eklenmedi.
+- Kalıcı delete eklenmedi.
+- Arama / filtreleme eklenmedi.
+- Değişkenli kopyala-doldur eklenmedi.
+- Gelişmiş tag/category yönetimi eklenmedi.
+
+### Belge / checklist durumu
+- `docs/checklists/m7_detailed_add_checklist.md` oluşturuldu.
+
+### Kapanış kararı
+- [x] Bu milestone kapanabilir.
+- [x] M8 — Arama ve Filtreleme aşamasına geçilebilir.
 
 ---
 
