@@ -627,7 +627,33 @@ M7 uygulaması, canlı rules publish doğrulaması ve kapanış kontrolü tamaml
 
 ### M8 — Arama ve Filtreleme
 
-Henüz not yok.
+## M8 Uygulama Notu — 2026-05-31
+
+Milestone: M8  
+Kategori: Mimari / Scope / Test  
+Durum: Kapanışa aday
+
+### Not
+Prompt Library ekranına V1 kapsamında sade client-side arama ve filtreleme eklendi. Ham liste `currentUserPromptsProvider` üzerinden gelmeye devam ediyor; Firestore query, repository ve service katmanları değiştirilmedi.
+
+### Yapılanlar
+- Presentation katmanında `PromptLibraryFilterState` eklendi.
+- Arama `title`, `promptText`, `description`, `notes`, `category` ve `tags` alanlarında case-insensitive çalışacak şekilde eklendi.
+- Status filtresi eklendi: Aktif, `raw`, `needs_edit`, `ready`, `archived`.
+- Varsayılan Aktif görünümde `archived` promptlar gizlendi.
+- `archived` filtresi yalnızca archived promptları gösterecek şekilde ayrıldı.
+- Category ve tag seçenekleri mevcut prompt listesinden türetildi.
+- Filtreleri temizle aksiyonu eklendi.
+- Ham kütüphane boşluğu ile filtre sonucu boşluğu ayrı UI state olarak korundu.
+- Prompt detayına geçiş, Hızlı Ekle ve Detaylı Ekle aksiyonları korundu.
+
+### Kontrol edilenler
+- UI doğrudan Firebase Auth veya Firestore kullanmıyor.
+- Screen → Provider/Controller → Repository → Service → Firebase sınırı korunuyor.
+- Arama / filtreleme client-side ve presentation/provider katmanında kaldı.
+- AI arama, semantic search, Firestore full-text search, Algolia veya Meilisearch eklenmedi.
+- Category CRUD, tag yönetim ekranı ve saved filters eklenmedi.
+- `docs/checklists/m8_search_filter_checklist.md` oluşturuldu.
 
 Beklenen not alanları:
 

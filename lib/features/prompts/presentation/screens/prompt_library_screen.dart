@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../domain/entities/prompt_card.dart';
+import '../providers/prompt_library_filter_state.dart';
 import '../providers/prompt_providers.dart';
 
 class PromptLibraryScreen extends ConsumerWidget {
@@ -29,6 +30,16 @@ class PromptLibraryScreen extends ConsumerWidget {
 
     final authActionState = ref.watch(authControllerProvider);
     final promptsState = ref.watch(currentUserPromptsProvider);
+    final filteredPromptsState = ref.watch(filteredCurrentUserPromptsProvider);
+    final filterOptions = ref
+        .watch(promptLibraryFilterOptionsProvider)
+        .maybeWhen(
+          data: (options) => options,
+          orElse: () => const PromptLibraryFilterOptions(
+            categories: <String>[],
+            tags: <String>[],
+          ),
+        );
     final isSigningOut = authActionState.isLoading;
 
     return Scaffold(
@@ -66,13 +77,172 @@ class PromptLibraryScreen extends ConsumerWidget {
               return const _PromptLibraryEmptyState();
             }
 
-            return _PromptList(prompts: prompts);
+            return _PromptLibraryContent(
+              prompts: filteredPromptsState.maybeWhen(
+                data: (filteredPrompts) => filteredPrompts,
+                orElse: () => const <PromptCard>[],
+              ),
+              filterOptions: filterOptions,
+            );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) => const _PromptLibraryErrorState(),
         ),
       ),
     );
+  }
+}
+
+class _PromptLibraryContent extends ConsumerWidget {
+  const _PromptLibraryContent({
+    required this.prompts,
+    required this.filterOptions,
+  });
+
+  final List<PromptCard> prompts;
+  final PromptLibraryFilterOptions filterOptions;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+      children: [
+        _PromptLibraryFilters(filterOptions: filterOptions),
+        const SizedBox(height: 12),
+        if (prompts.isEmpty)
+          const _PromptLibraryEmptyResultState()
+        else
+          for (final prompt in prompts) ...[
+            _PromptListItem(prompt: prompt),
+            const SizedBox(height: 8),
+          ],
+      ],
+    );
+  }
+}
+
+class _PromptLibraryFilters extends ConsumerWidget {
+  const _PromptLibraryFilters({required this.filterOptions});
+
+  final PromptLibraryFilterOptions filterOptions;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(promptLibraryFilterProvider);
+    final filterNotifier = ref.read(promptLibraryFilterProvider.notifier);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextField(
+          decoration: InputDecoration(
+            labelText: 'Ara',
+            hintText: 'Baslik, metin, kategori veya etiket',
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: filter.query.trim().isEmpty
+                ? null
+                : IconButton(
+                    tooltip: 'Aramayi temizle',
+                    onPressed: () {
+                      filterNotifier.state = filter.copyWith(query: '');
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+          ),
+          onChanged: (value) {
+            filterNotifier.state = filter.copyWith(query: value);
+          },
+        ),
+        const SizedBox(height: 12),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              for (final statusFilter in PromptLibraryStatusFilter.values) ...[
+                ChoiceChip(
+                  label: Text(_statusFilterLabel(statusFilter)),
+                  selected: filter.statusFilter == statusFilter,
+                  onSelected: (_) {
+                    filterNotifier.state = filter.copyWith(
+                      statusFilter: statusFilter,
+                    );
+                  },
+                ),
+                const SizedBox(width: 8),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            SizedBox(
+              width: 220,
+              child: DropdownButtonFormField<String>(
+                initialValue: filter.selectedCategory,
+                isExpanded: true,
+                decoration: const InputDecoration(labelText: 'Kategori'),
+                items: [
+                  const DropdownMenuItem<String>(
+                    value: null,
+                    child: Text('Tum kategoriler'),
+                  ),
+                  for (final category in filterOptions.categories)
+                    DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    ),
+                ],
+                onChanged: (value) {
+                  filterNotifier.state = filter.copyWith(
+                    selectedCategory: value,
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              child: DropdownButtonFormField<String>(
+                initialValue: filter.selectedTag,
+                isExpanded: true,
+                decoration: const InputDecoration(labelText: 'Etiket'),
+                items: [
+                  const DropdownMenuItem<String>(
+                    value: null,
+                    child: Text('Tum etiketler'),
+                  ),
+                  for (final tag in filterOptions.tags)
+                    DropdownMenuItem<String>(value: tag, child: Text(tag)),
+                ],
+                onChanged: (value) {
+                  filterNotifier.state = filter.copyWith(selectedTag: value);
+                },
+              ),
+            ),
+            if (filter.hasActiveFilters)
+              OutlinedButton.icon(
+                onPressed: () {
+                  filterNotifier.state = const PromptLibraryFilterState();
+                },
+                icon: const Icon(Icons.filter_alt_off_outlined),
+                label: const Text('Filtreleri temizle'),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  static String _statusFilterLabel(PromptLibraryStatusFilter statusFilter) {
+    return switch (statusFilter) {
+      PromptLibraryStatusFilter.active => 'Aktif',
+      PromptLibraryStatusFilter.raw => 'raw',
+      PromptLibraryStatusFilter.needsEdit => 'needs_edit',
+      PromptLibraryStatusFilter.ready => 'ready',
+      PromptLibraryStatusFilter.archived => 'archived',
+    };
   }
 }
 
@@ -174,21 +344,39 @@ class _PromptLibraryErrorState extends StatelessWidget {
   }
 }
 
-class _PromptList extends StatelessWidget {
-  const _PromptList({required this.prompts});
-
-  final List<PromptCard> prompts;
+class _PromptLibraryEmptyResultState extends StatelessWidget {
+  const _PromptLibraryEmptyResultState();
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-      itemBuilder: (context, index) {
-        final prompt = prompts[index];
-        return _PromptListItem(prompt: prompt);
-      },
-      separatorBuilder: (context, index) => const SizedBox(height: 8),
-      itemCount: prompts.length,
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 48),
+      child: Column(
+        children: [
+          Icon(
+            Icons.search_off_outlined,
+            size: 44,
+            color: colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Sonuc bulunamadi',
+            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Arama veya filtreleri temizleyip tekrar deneyin.',
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

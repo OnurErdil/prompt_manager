@@ -10,6 +10,7 @@ import '../../domain/services/prompt_variable_parser.dart';
 import '../controllers/detailed_add_prompt_controller.dart';
 import '../controllers/prompt_edit_controller.dart';
 import '../controllers/quick_add_prompt_controller.dart';
+import 'prompt_library_filter_state.dart';
 
 final promptFirestoreServiceProvider = Provider<PromptFirestoreService>((ref) {
   return PromptFirestoreService();
@@ -44,6 +45,28 @@ final currentUserPromptsProvider = StreamProvider.autoDispose<List<PromptCard>>(
     );
   },
 );
+
+final promptLibraryFilterProvider =
+    StateProvider.autoDispose<PromptLibraryFilterState>((ref) {
+      return const PromptLibraryFilterState();
+    });
+
+final filteredCurrentUserPromptsProvider =
+    Provider.autoDispose<AsyncValue<List<PromptCard>>>((ref) {
+      final filter = ref.watch(promptLibraryFilterProvider);
+      final promptsState = ref.watch(currentUserPromptsProvider);
+
+      return promptsState.whenData(
+        (prompts) => filterPromptCards(prompts, filter),
+      );
+    });
+
+final promptLibraryFilterOptionsProvider =
+    Provider.autoDispose<AsyncValue<PromptLibraryFilterOptions>>((ref) {
+      final promptsState = ref.watch(currentUserPromptsProvider);
+
+      return promptsState.whenData(buildPromptLibraryFilterOptions);
+    });
 
 final promptDetailProvider = FutureProvider.autoDispose
     .family<PromptCard?, String>((ref, promptId) {

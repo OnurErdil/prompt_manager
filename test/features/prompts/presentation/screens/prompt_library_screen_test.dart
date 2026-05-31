@@ -7,6 +7,7 @@ import 'package:prompt_manager/features/auth/domain/entities/app_user.dart';
 import 'package:prompt_manager/features/auth/domain/repositories/auth_repository.dart';
 import 'package:prompt_manager/features/auth/presentation/providers/auth_providers.dart';
 import 'package:prompt_manager/features/prompts/domain/entities/prompt_card.dart';
+import 'package:prompt_manager/features/prompts/domain/enums/prompt_status.dart';
 import 'package:prompt_manager/features/prompts/domain/repositories/prompt_repository.dart';
 import 'package:prompt_manager/features/prompts/presentation/providers/prompt_providers.dart';
 import 'package:prompt_manager/features/prompts/presentation/screens/prompt_library_screen.dart';
@@ -42,6 +43,88 @@ void main() {
 
     expect(find.text('Write a launch plan for [PRODUCT].'), findsWidgets);
     expect(find.textContaining('Durum: raw'), findsOneWidget);
+  });
+
+  testWidgets('hides archived prompts by default', (tester) async {
+    await tester.pumpWidget(
+      _libraryTestApp(
+        prompts: <PromptCard>[
+          _prompt(id: 'prompt-1', title: 'Active prompt'),
+          _prompt(
+            id: 'prompt-2',
+            title: 'Archived prompt',
+            status: PromptStatus.archived,
+          ),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Active prompt'), findsOneWidget);
+    expect(find.text('Archived prompt'), findsNothing);
+  });
+
+  testWidgets('shows archived prompts when archived status is selected', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _libraryTestApp(
+        prompts: <PromptCard>[
+          _prompt(id: 'prompt-1', title: 'Active prompt'),
+          _prompt(
+            id: 'prompt-2',
+            title: 'Archived prompt',
+            status: PromptStatus.archived,
+          ),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(ChoiceChip, 'archived'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Active prompt'), findsNothing);
+    expect(find.text('Archived prompt'), findsOneWidget);
+  });
+
+  testWidgets('searches prompts and shows empty result state', (tester) async {
+    await tester.pumpWidget(
+      _libraryTestApp(
+        prompts: <PromptCard>[_prompt(id: 'prompt-1', title: 'Launch prompt')],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'missing value');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sonuc bulunamadi'), findsOneWidget);
+    expect(find.text('Ilk promptunu yakala'), findsNothing);
+  });
+
+  testWidgets('clear filters returns to default active state', (tester) async {
+    await tester.pumpWidget(
+      _libraryTestApp(
+        prompts: <PromptCard>[
+          _prompt(id: 'prompt-1', title: 'Active prompt'),
+          _prompt(
+            id: 'prompt-2',
+            title: 'Archived prompt',
+            status: PromptStatus.archived,
+          ),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(ChoiceChip, 'archived'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Filtreleri temizle'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Active prompt'), findsOneWidget);
+    expect(find.text('Archived prompt'), findsNothing);
   });
 
   testWidgets('opens detail route when list item is tapped', (tester) async {
@@ -81,6 +164,20 @@ void main() {
 
     expect(find.text('Detailed add route'), findsOneWidget);
   });
+
+  testWidgets('opens quick add route from floating action button', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _libraryRouterTestApp(prompts: const <PromptCard>[]),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Hizli Ekle'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Quick add route'), findsOneWidget);
+  });
 }
 
 Widget _libraryTestApp({required List<PromptCard> prompts}) {
@@ -114,6 +211,12 @@ Widget _libraryRouterTestApp({required List<PromptCard> prompts}) {
         },
       ),
       GoRoute(
+        path: RoutePaths.quickAddPrompt,
+        builder: (context, state) {
+          return const Scaffold(body: Text('Quick add route'));
+        },
+      ),
+      GoRoute(
         path: RoutePaths.promptDetail,
         builder: (context, state) {
           return Scaffold(
@@ -136,6 +239,25 @@ Widget _libraryRouterTestApp({required List<PromptCard> prompts}) {
       ),
     ],
     child: MaterialApp.router(routerConfig: router),
+  );
+}
+
+PromptCard _prompt({
+  required String id,
+  required String title,
+  PromptStatus status = PromptStatus.raw,
+}) {
+  return PromptCard(
+    id: id,
+    ownerId: 'user-1',
+    title: title,
+    promptText: '$title prompt text.',
+    description: '',
+    notes: '',
+    category: '',
+    status: status,
+    createdAt: DateTime(2026, 5, 30),
+    updatedAt: DateTime(2026, 5, 30, 12),
   );
 }
 
