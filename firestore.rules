@@ -80,7 +80,7 @@ service cloud.firestore {
                     && request.resource.data.ownerId == request.auth.uid
                     && request.resource.data.promptText is string
                     && request.resource.data.promptText.size() > 0
-                    && request.resource.data.status == "raw"
+                    && isValidStatus(request.resource.data.status)
                     && request.resource.data.schemaVersion == 1;
 
       allow update: if isSignedInOwner(userId)

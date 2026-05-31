@@ -36,6 +36,11 @@ class PromptLibraryScreen extends ConsumerWidget {
         title: const Text('Prompt Kutuphanesi'),
         actions: [
           IconButton(
+            tooltip: 'Detayli Ekle',
+            onPressed: () => context.go(RoutePaths.detailedAddPrompt),
+            icon: const Icon(Icons.note_add_outlined),
+          ),
+          IconButton(
             tooltip: 'Ayarlar',
             onPressed: () => context.go(RoutePaths.settings),
             icon: const Icon(Icons.settings_outlined),
@@ -113,6 +118,12 @@ class _PromptLibraryEmptyState extends StatelessWidget {
                 onPressed: () => context.go(RoutePaths.quickAddPrompt),
                 icon: const Icon(Icons.add),
                 label: const Text('Ilk promptunu ekle'),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () => context.go(RoutePaths.detailedAddPrompt),
+                icon: const Icon(Icons.note_add_outlined),
+                label: const Text('Detayli Ekle'),
               ),
             ],
           ),

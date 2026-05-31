@@ -69,6 +69,18 @@ void main() {
 
     expect(find.text('Detail prompt-1'), findsOneWidget);
   });
+
+  testWidgets('opens detailed add route from app bar action', (tester) async {
+    await tester.pumpWidget(
+      _libraryRouterTestApp(prompts: const <PromptCard>[]),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Detayli Ekle'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Detailed add route'), findsOneWidget);
+  });
 }
 
 Widget _libraryTestApp({required List<PromptCard> prompts}) {
@@ -94,6 +106,12 @@ Widget _libraryRouterTestApp({required List<PromptCard> prompts}) {
       GoRoute(
         path: RoutePaths.library,
         builder: (context, state) => const PromptLibraryScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.detailedAddPrompt,
+        builder: (context, state) {
+          return const Scaffold(body: Text('Detailed add route'));
+        },
       ),
       GoRoute(
         path: RoutePaths.promptDetail,

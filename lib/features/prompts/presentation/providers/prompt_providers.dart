@@ -7,6 +7,7 @@ import '../../data/services/prompt_firestore_service.dart';
 import '../../domain/entities/prompt_card.dart';
 import '../../domain/repositories/prompt_repository.dart';
 import '../../domain/services/prompt_variable_parser.dart';
+import '../controllers/detailed_add_prompt_controller.dart';
 import '../controllers/prompt_edit_controller.dart';
 import '../controllers/quick_add_prompt_controller.dart';
 
@@ -67,6 +68,22 @@ final quickAddPromptControllerProvider =
       final parser = ref.watch(promptVariableParserProvider);
 
       return QuickAddPromptController(
+        authRepository: authRepository,
+        promptRepository: promptRepository,
+        parser: parser,
+      );
+    });
+
+final detailedAddPromptControllerProvider =
+    StateNotifierProvider.autoDispose<
+      DetailedAddPromptController,
+      AsyncValue<void>
+    >((ref) {
+      final authRepository = ref.watch(authRepositoryProvider);
+      final promptRepository = ref.watch(promptRepositoryProvider);
+      final parser = ref.watch(promptVariableParserProvider);
+
+      return DetailedAddPromptController(
         authRepository: authRepository,
         promptRepository: promptRepository,
         parser: parser,
